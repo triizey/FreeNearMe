@@ -14,8 +14,8 @@ const Map = ({ events }) => {
   const center = getCenter(coordinates);
 
   const [viewPort, setviewPort] = useState({
-    width: '100%',
-    height: '60vh',
+    width: '580px',
+    height: '58vh',
     latitude: center.latitude,
     longitude: center.longitude,
     zoom: 0,
@@ -23,7 +23,7 @@ const Map = ({ events }) => {
 
   return (
     <ReactMapGL
-      mapStyle="mapbox://styles/sunmengyue/cktq19o920p5917nzdbsmqep0"
+      mapStyle="mapbox://styles/sunmengyue/cktu6pvp80kbk17ny02mll90x"
       mapboxApiAccessToken="pk.eyJ1Ijoic3VubWVuZ3l1ZSIsImEiOiJja2owY3o0Z3Ywa3E5MnhrbGV2a3M3aDM4In0.uK5_xMb75lXraq02u0Htjg"
       {...viewPort}
       onViewportChange={(viewPort) => setviewPort(viewPort)}

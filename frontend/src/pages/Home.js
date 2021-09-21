@@ -1,6 +1,6 @@
 import React from 'react';
-
 import EventCard from '../components/EventCard';
+import EventsCarousel from '../components/EventsCarousel';
 import Map from '../components/Map';
 
 const Home = ({ events }) => {
@@ -11,7 +11,7 @@ const Home = ({ events }) => {
         <div>
           <h1 className="h1 text-cust-black font-header">Current Events</h1>
           <div className="lg:flex lg:justify-between">
-            <section className="mb-5">
+            <section className="mb-8">
               {events.slice(0, 4).map((event, idx) => (
                 <EventCard
                   key={event.id}
@@ -26,8 +26,9 @@ const Home = ({ events }) => {
           </div>
         </div>
         {/* upcoming events */}
-        <section className="inline-flex min-w-full">
+        <section>
           <h1 className="h1 text-cust-black font-header">Upcoming Events</h1>
+          <EventsCarousel events={events} />
         </section>
       </main>
     </div>
