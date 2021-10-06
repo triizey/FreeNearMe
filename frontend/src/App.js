@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 const App = () => {
   const [events, setEvents] = useState([]);
@@ -12,9 +14,11 @@ const App = () => {
 
   return (
     <Router>
+      <Header />
       <div>
         <Route path="/" exact render={() => <Home events={events} />} />
       </div>
+      <Footer />
     </Router>
   );
 };
