@@ -71,3 +71,17 @@ Thumbs.db
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
 /frontend/yarn-error.log*
+
+
+# backend
+/backend/node_modules
+/backend/.env
+
+/backend/.env.local
+/backend/.env.development.local
+/backend/.env.test.local
+/backend/.env.production.local
+
+/backend/npm-debug.log*
+/backend/yarn-debug.log*
+/backend/yarn-error.log*
