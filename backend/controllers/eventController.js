@@ -6,7 +6,11 @@ const asyncHandler = require('express-async-handler');
 // @access Public
 const getEvents = asyncHandler(async (req, res) => {
   Event.find({
-    $and: [{ name: { $ne: null } }, { location: { $ne: null } }],
+    $and: [
+      { name: { $ne: null } },
+      { location: { $ne: null } },
+      // { date: { $gte: new Date() } },
+    ],
   }).then((data) => res.send(data));
 });
 
