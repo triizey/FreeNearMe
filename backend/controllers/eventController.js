@@ -5,7 +5,9 @@ const asyncHandler = require('express-async-handler');
 // @route GET /api/events
 // @access Public
 const getEvents = asyncHandler(async (req, res) => {
-  Event.find().then((data) => res.send(data));
+  Event.find({
+    $and: [{ name: { $ne: null } }, { location: { $ne: null } }],
+  }).then((data) => res.send(data));
 });
 
 // @desc Fetch a single event

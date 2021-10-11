@@ -21,6 +21,7 @@ const App = () => {
     const fetchEvents = async () => {
       const { data } = await axios.get('/api/events');
       setEvents(data);
+      console.log(data.length);
     };
     fetchEvents();
   }, []);
