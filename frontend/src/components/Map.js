@@ -23,7 +23,7 @@ const Map = ({ events }) => {
 
   const containerStyle = {
     width: '100%',
-    height: '1000px',
+    height: '700px',
   };
 
   const center = {

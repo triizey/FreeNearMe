@@ -35,7 +35,8 @@ module.exports = {
   variants: {
     extend: {
       borderWidth: ['first'],
+      scrollbar: ['rounded'],
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar')],
 };

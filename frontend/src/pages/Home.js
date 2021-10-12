@@ -1,6 +1,6 @@
 import React from 'react';
-import EventCard from '../components/EventCard';
 import Map from '../components/Map';
+import SmallCard from '../components/SmallCard';
 
 const Home = ({ events }) => {
   const getImgRandomNo = () => {
@@ -11,12 +11,12 @@ const Home = ({ events }) => {
     <div>
       <main className="main_screen">
         {/* current events */}
-        <div className="relative">
+        <div>
           <h1 className="h1 text-cust-black font-header">Current Events</h1>
-          <div className="md:relative">
-            <section className="mb-8 h-2/5 absolute z-10">
+          <div className="md:relative h-full">
+            <section className="scrollbar-thin mb-8 h-5/6 top-24 left-5 absolute z-10 overflow-y-scroll scrollbar-thumb-cust-black scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
               {events.slice(0, 25).map((event) => (
-                <EventCard
+                <SmallCard
                   key={event.uid}
                   event={event}
                   imgSrc={
