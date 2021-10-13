@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import { firebase } from './firebase';
+import EventContext from './utils/EventContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -17,8 +18,12 @@ const App = () => {
   const [hasAccount, setHasAccount] = useState(false);
 
   useEffect(() => {
-    authListener();
-    axios.get(`/events.json`).then((res) => setEvents(res.data.results));
+    const fetchEvents = async () => {
+      const { data } = await axios.get('/api/events');
+      setEvents(data);
+      console.log(data.length);
+    };
+    fetchEvents();
   }, []);
 
   const SignInWithGoogle = () => {
@@ -121,17 +126,19 @@ const App = () => {
   </Route>;
 
   return (
-    <Router>
-      <Header />
-      <div>
-        <Switch>
-          <Route exact path="/">
-            <Home handleLogout={handleLogout} events={events} />
-          </Route>
-        </Switch>
-      </div>
-      <Footer />
-    </Router>
+    <EventContext.Provider value={{ events }}>
+      <Router>
+        <Header />
+        <div>
+          <Switch>
+            <Route exact path="/">
+              <Home handleLogout={handleLogout} events={events} />
+            </Route>
+          </Switch>
+        </div>
+        <Footer />
+      </Router>
+    </EventContext.Provider>
   );
 };
 

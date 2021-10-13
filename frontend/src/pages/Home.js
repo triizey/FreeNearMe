@@ -1,22 +1,29 @@
 import React from 'react';
-import EventCard from '../components/EventCard';
-import EventsCarousel from '../components/EventsCarousel';
 import Map from '../components/Map';
+import SmallCard from '../components/SmallCard';
 
 const Home = ({ events }) => {
+  const getImgRandomNo = () => {
+    return Math.floor(Math.random() * 9);
+  };
+
   return (
     <div>
       <main className="main_screen">
         {/* current events */}
         <div>
           <h1 className="h1 text-cust-black font-header">Current Events</h1>
-          <div className="md:relative">
-            <section className="mb-8 md:absolute z-10">
-              {events.slice(0, 4).map((event, idx) => (
-                <EventCard
-                  key={event.id}
+          <div className="md:relative h-full">
+            <section className="scrollbar-thin mb-8 h-5/6 top-24 left-5 md:absolute md:z-10 overflow-y-scroll scrollbar-thumb-cust-black scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
+              {events.slice(0, 25).map((event) => (
+                <SmallCard
+                  key={event.uid}
                   event={event}
-                  imgSrc={`/images/event${idx}.jpg`}
+                  imgSrc={
+                    event.imgs
+                      ? event.imgs
+                      : `/images/food_event${getImgRandomNo()}.jpg`
+                  }
                 />
               ))}
             </section>
@@ -28,7 +35,7 @@ const Home = ({ events }) => {
         {/* upcoming events */}
         <section className="mt-12">
           <h1 className="h1 text-cust-black font-header">Upcoming Events</h1>
-          <EventsCarousel events={events} />
+          //EVENT CROUSEL
         </section>
       </main>
     </div>

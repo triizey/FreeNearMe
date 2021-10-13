@@ -1,58 +1,66 @@
-import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import ReactMapGL, { Marker, Popup } from 'react-map-gl';
-import getCenter from 'geolib/es/getCenter';
+import React from 'react';
+import axios from 'axios';
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
 const Map = ({ events }) => {
-  const [selectedLocation, setSelectedLocation] = useState({});
+  // get coordinates
+  function getGeocodes() {
+    return events.map((event) => {
+      axios('https://maps.googleapis.com/maps/api/geocode/json', {
+        params: {
+          address: event.location,
+          key: 'AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE',
+        },
+      })
+        .then((res) => {
+          if (res.data.status === 'OK') {
+            console.log(res.data);
+          }
+        })
+        .catch((e) => console.error(e));
+    });
+  }
 
-  // Transform the event locations in the format of {longitude, latitude}
-  const coordinates = events.slice(0, 4).map((event) => ({
-    longitude: event.location[0],
-    latitude: event.location[1],
-  }));
-  const center = getCenter(coordinates);
-
-  const [viewPort, setviewPort] = useState({
+  const containerStyle = {
     width: '100%',
-    height: '60vh',
-    latitude: center.latitude,
-    longitude: center.longitude,
-    zoom: 0,
+    height: '800px',
+  };
+
+  const center = {
+    lat: 37.7749,
+    lng: -122.419416,
+  };
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: 'AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE ',
   });
 
-  return (
-    <ReactMapGL
-      mapStyle="mapbox://styles/sunmengyue/cktu6pvp80kbk17ny02mll90x"
-      mapboxApiAccessToken="pk.eyJ1Ijoic3VubWVuZ3l1ZSIsImEiOiJja2owY3o0Z3Ywa3E5MnhrbGV2a3M3aDM4In0.uK5_xMb75lXraq02u0Htjg"
-      {...viewPort}
-      onViewportChange={(viewPort) => setviewPort(viewPort)}
+  const [map, setMap] = React.useState(null);
+
+  const onLoad = React.useCallback(function callback(map) {
+    const bounds = new window.google.maps.LatLngBounds();
+    map.fitBounds(bounds);
+    setMap(map);
+  }, []);
+
+  const onUnmount = React.useCallback(function callback(map) {
+    setMap(null);
+  }, []);
+
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={10}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
     >
-      {events.slice(0, 4).map((event) => (
-        <div key={uuidv4()}>
-          <Marker latitude={event.location[1]} longitude={event.location[0]}>
-            <p
-              className="cursor-pointer animate-bounce"
-              onClick={() => setSelectedLocation(event.location)}
-            >
-              📍
-            </p>
-          </Marker>
-          {selectedLocation[0] === event.location[0] ? (
-            <Popup
-              closeOnClick={true}
-              onClose={() => setSelectedLocation({})}
-              latitude={event.location[1]}
-              longitude={event.location[0]}
-            >
-              {event.title}
-            </Popup>
-          ) : (
-            false
-          )}
-        </div>
-      ))}
-    </ReactMapGL>
+      {/* Child components, such as markers, info windows, etc. */}
+      <></>
+    </GoogleMap>
+  ) : (
+    <></>
   );
 };
 
