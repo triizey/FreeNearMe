@@ -9,8 +9,20 @@ const getEvents = asyncHandler(async (req, res) => {
     $and: [
       { name: { $ne: null } },
       { location: { $ne: null } },
-      { date: { $ne: null } },
+      // { date: { $gte: new Date('Sun, October 10, 2021') } },
+    ],
+  }).then((data) => res.send(data));
+});
 
+// @desc Fetch default events in San Francisco
+// @route GET /api/events/defaultEvents
+// @access Public
+const getDefaultEvents = asyncHandler(async (req, res) => {
+  Event.find({
+    $and: [
+      { name: { $ne: null } },
+      { location: { $ne: null } },
+      { zipcode: { $regex: 'CA' } },
       // { date: { $gte: new Date('Sun, October 10, 2021') } },
     ],
   }).then((data) => res.send(data));
@@ -31,4 +43,4 @@ const getSingleEvent = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getEvents, getSingleEvent };
+module.exports = { getEvents, getSingleEvent, getDefaultEvents };
