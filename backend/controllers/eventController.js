@@ -9,7 +9,9 @@ const getEvents = asyncHandler(async (req, res) => {
     $and: [
       { name: { $ne: null } },
       { location: { $ne: null } },
-      // { date: { $gte: new Date() } },
+      { date: { $ne: null } },
+
+      // { date: { $gte: new Date('Sun, October 10, 2021') } },
     ],
   }).then((data) => res.send(data));
 });

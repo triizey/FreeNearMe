@@ -23,12 +23,12 @@ const Map = ({ events }) => {
 
   const containerStyle = {
     width: '100%',
-    height: '700px',
+    height: '800px',
   };
 
   const center = {
-    lat: -3.745,
-    lng: -38.523,
+    lat: 37.7749,
+    lng: -122.419416,
   };
 
   const { isLoaded } = useJsApiLoader({

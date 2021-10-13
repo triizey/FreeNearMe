@@ -14,7 +14,7 @@ const Home = ({ events }) => {
         <div>
           <h1 className="h1 text-cust-black font-header">Current Events</h1>
           <div className="md:relative h-full">
-            <section className="scrollbar-thin mb-8 h-5/6 top-24 left-5 absolute z-10 overflow-y-scroll scrollbar-thumb-cust-black scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
+            <section className="scrollbar-thin mb-8 h-5/6 top-24 left-5 md:absolute md:z-10 overflow-y-scroll scrollbar-thumb-cust-black scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
               {events.slice(0, 25).map((event) => (
                 <SmallCard
                   key={event.uid}
