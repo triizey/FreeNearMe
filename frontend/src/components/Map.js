@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { getCenter } from 'geolib';
 
 const Map = ({ events }) => {
   /* Get coordinates */
+
   const getGeocodes = () => {
     let coordsPromises = [];
     for (let i = 0; i < events.length; i++) {
@@ -24,18 +25,18 @@ const Map = ({ events }) => {
       );
     }
     return Promise.all(coordsPromises)
-      .then((result) => console.log(result))
+      .then((result) => {
+        console.log(result);
+        return result?.map((coord) => ({
+          latitude: coord?.lat,
+          longigude: coord?.lng,
+        }));
+      })
       .catch((error) => console.error(error));
   };
-
-  getGeocodes();
-
-  // Transfer getGeocode array in the format of [{latitude:..., longitude...}]
-
-  // const formattedCoords = coordinates.map((coord) => ({
-  //   latitude: coord.lat,
-  //   longigude: coord.lng,
-  // }));
+  // Caculate the center of the array
+  let coords = getGeocodes();
+  console.log(coords);
 
   // Map config
   const containerStyle = {

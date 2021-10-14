@@ -94,7 +94,7 @@ export default function Header() {
           </div>
         </div>
         <div className="flex mr-8">
-          <button
+          {/* <button
             className="flex-shrink-0 font-black border-transparent border-4 text-teal-500 hover:text-cust-orange text-sm rounded"
             type="button"
           >
@@ -103,7 +103,7 @@ export default function Header() {
           <img
             className="cursor-pointer hover:opacity-50"
             src="./images/notifications.png"
-          />
+          /> */}
           <button
             className="ml-8 mr-2 bg-cust-orange hover:bg-yellow-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
