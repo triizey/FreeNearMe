@@ -1,6 +1,7 @@
 import React from 'react';
 import Slider, { SliderTooltip } from 'rc-slider';
 // import Slider, { Range } from 'rc-slider';
+import { useHistory } from 'react-router-dom';
 import 'rc-slider/assets/index.css';
 import 'flatpickr/dist/themes/airbnb.css';
 import Flatpickr from 'react-flatpickr';
@@ -40,11 +41,17 @@ const wrapperStyle = { width: 200 };
 
 export default function Header() {
   let date = new Date();
+  const history = useHistory();
 
   return (
     <div className="main_screen">
       <div className=" bg-white flex flex-row items-center justify-around">
-        <div className="h-28 cursor-pointer flex-shrink-0">
+        <div
+          className="h-28 cursor-pointer flex-shrink-0"
+          onClick={() => {
+            history.push('/');
+          }}
+        >
           <img
             src="./images/logo.png"
             className="h-full ml-2 py-4 object-contain"
@@ -95,15 +102,22 @@ export default function Header() {
         </div>
         <div className="flex mr-8">
           <button
-            className="flex-shrink-0 font-black border-transparent border-4 text-teal-500 hover:text-cust-orange text-sm rounded"
-            type="button"
+            onClick={() => {
+              history.push('/myEvents');
+            }}
+            className="flex items-center"
           >
-            My Events
+            <h4
+              className="flex-shrink-0 font-black border-transparent border-4 text-teal-500 hover:text-cust-orange text-sm rounded"
+              type="button"
+            >
+              My Events
+            </h4>
+            <img
+              className="cursor-pointer hover:opacity-50"
+              src="./images/notifications.png"
+            />
           </button>
-          <img
-            className="cursor-pointer hover:opacity-50"
-            src="./images/notifications.png"
-          />
           <button
             className="ml-8 mr-2 bg-cust-orange hover:bg-yellow-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"

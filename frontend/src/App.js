@@ -3,13 +3,16 @@ import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
+import MyEvents from './pages/MyEvents';
 import { firebase } from './firebase';
 import EventContext from './utils/EventContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
 const App = () => {
-  const [events, setEvents] = useState([]);
+  const [defaultEvents, setDefaultEvents] = useState([]);
+  const [zipcode, setZipcode] = useState('94203');
+
   const [user, setUser] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,12 +22,12 @@ const App = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const { data } = await axios.get('/api/events');
-      setEvents(data);
+      const { data } = await axios.get('/api/events/defaultEvents');
+      setDefaultEvents(data);
       console.log(data.length);
     };
     fetchEvents();
-  }, []);
+  }, [zipcode]);
 
   const SignInWithGoogle = () => {
     const google_provider = new firebase.auth.GoogleAuthProvider(); // creates a provider
@@ -121,18 +124,17 @@ const App = () => {
     });
   };
 
-  <Route exact path="/">
-    <Home handleLogout={handleLogout} events={events} />
-  </Route>;
-
   return (
-    <EventContext.Provider value={{ events }}>
+    <EventContext.Provider value={{ defaultEvents }}>
       <Router>
         <Header />
         <div>
           <Switch>
+            <Route exact path="/myEvents">
+              <MyEvents events={defaultEvents} />
+            </Route>
             <Route exact path="/">
-              <Home handleLogout={handleLogout} events={events} />
+              <Home handleLogout={handleLogout} events={defaultEvents} />
             </Route>
           </Switch>
         </div>

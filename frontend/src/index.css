@@ -7,6 +7,6 @@
     @apply max-w-7xl m-auto p-5;
   }
   .h1 {
-    @apply m-5 text-2xl font-semibold tracking-widest uppercase;
+    @apply m-5 text-2xl font-semibold font-header tracking-widest uppercase;
   }
 }
