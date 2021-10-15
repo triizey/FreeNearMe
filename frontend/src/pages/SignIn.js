@@ -17,7 +17,7 @@ function SignIn(props) {
 
   return (
     <div className="flex justify-center ">
-      <div className="flex-col shadow-md text-2xl w-11/12 py-20 mt-20 min-w-max max-w-xl w-1200  min-h-700 max-h-full justify-between items-center bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 p-10 rounded-md text-white hover:text-white-200">
+      <div className="flex-col shadow-md text-2xl w-11/12 py-20 mt-20 min-w-max max-w-sm max-w-xl w-1200  min-h-700 max-h-full justify-between items-center bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 p-10 rounded-md text-white hover:text-white-200">
         <section className="max-h-full px-10 justify-between">
           <div className="max-h-full">
             <label>Email </label>

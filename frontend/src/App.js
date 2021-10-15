@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
-import MyEvents from './pages/MyEvents';
 import { firebase } from './firebase';
 import EventContext from './utils/EventContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
+<<<<<<< Updated upstream
 
 const App = () => {
   const [defaultEvents, setDefaultEvents] = useState([]);
   const [zipcode, setZipcode] = useState('94203');
 
+=======
+import Zipcode from './pages/Zipcode';
+
+const App = () => {
+  const [events, setEvents] = useState([]);
+>>>>>>> Stashed changes
   const [user, setUser] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,10 +26,18 @@ const App = () => {
   const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(false);
 
+
+
   useEffect(() => {
     const fetchEvents = async () => {
+<<<<<<< Updated upstream
       const { data } = await axios.get('/api/events/defaultEvents');
       setDefaultEvents(data);
+=======
+      const { data } = await axios.get('/api/events');
+      setEvents(data);
+
+>>>>>>> Stashed changes
       console.log(data.length);
     };
     fetchEvents();
@@ -124,18 +138,26 @@ const App = () => {
     });
   };
 
+  <Route exact path="/">
+    <Home handleLogout={handleLogout} events={events} />
+  </Route>;
+
   return (
-    <EventContext.Provider value={{ defaultEvents }}>
+    <EventContext.Provider value={{ events }}>
       <Router>
         <Header />
         <div>
           <Switch>
-            <Route exact path="/myEvents">
-              <MyEvents events={defaultEvents} />
-            </Route>
             <Route exact path="/">
-              <Home handleLogout={handleLogout} events={defaultEvents} />
+              <Home handleLogout={handleLogout} events={events} />
             </Route>
+
+            <Route path='/zipcode/:id'>
+
+                <Zipcode events={events}/>
+
+            </Route>
+
           </Switch>
         </div>
         <Footer />
