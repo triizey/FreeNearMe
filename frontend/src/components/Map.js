@@ -5,10 +5,23 @@ import { getCenter } from 'geolib';
 
 const Map = ({ events }) => {
   const [coordsArray, setCoordsArray] = useState([]);
+  const [centerCalced, setCenterCalced] = useState({
+    latitude: 34.052235,
+    longitude: -118.243683,
+  });
 
   useEffect(() => {
     handleGeoCodes();
   }, []);
+
+  useEffect(() => {
+    const formattedCoords = coordsArray.map((coord) => ({
+      latitude: coord.lat,
+      longitude: coord.lng,
+    }));
+    setCenterCalced(getCenter(formattedCoords));
+    console.log(center);
+  }, [coordsArray]);
 
   /* Get coordinates */
   const getGeocodes = () => {
@@ -35,7 +48,6 @@ const Map = ({ events }) => {
   const handleGeoCodes = async () => {
     try {
       var allCoords = await Promise.all(getGeocodes()).then((res) => {
-        console.log(res);
         return res;
       });
     } catch (error) {
@@ -54,8 +66,8 @@ const Map = ({ events }) => {
   };
 
   const center = {
-    lat: 34.052235,
-    lng: -118.243683,
+    lat: centerCalced.latitude,
+    lng: centerCalced.longitude,
   };
 
   const { isLoaded } = useJsApiLoader({
