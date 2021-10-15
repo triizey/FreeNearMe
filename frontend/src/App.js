@@ -8,9 +8,11 @@ import { firebase } from './firebase';
 import EventContext from './utils/EventContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import { outdatedFilter } from './components/dataFilter';
 
 const App = () => {
   const [defaultEvents, setDefaultEvents] = useState([]);
+
   const [zipcode, setZipcode] = useState('94203');
 
   const [user, setUser] = useState('');
@@ -23,8 +25,10 @@ const App = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       const { data } = await axios.get('/api/events/defaultEvents');
-      setDefaultEvents(data);
-      console.log(data.length);
+      const updatedData = outdatedFilter(data);
+      setDefaultEvents(updatedData);
+      console.log(updatedData.length);
+      console.log(updatedData);
     };
     fetchEvents();
   }, []);

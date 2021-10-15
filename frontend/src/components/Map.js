@@ -5,10 +5,24 @@ import { getCenter } from 'geolib';
 
 const Map = ({ events }) => {
   const [coordsArray, setCoordsArray] = useState([]);
+  const [center, setCenter] = useState({
+    lat: 34.052235,
+    lng: -118.243683,
+  });
 
-  useEffect(() => {
-    handleGeoCodes();
-  }, []);
+  // useEffect(() => {
+  //   handleGeocodes();
+  // }, []);
+
+  // useEffect(() => {
+  //   const formattedCoords = coordsArray.map((coord) => ({
+  //     latitude: coord?.lat,
+  //     longitude: coord?.lng,
+  //   }));
+  //   const centerCalc = getCenter(formattedCoords);
+
+  //   console.log(coordsArray);
+  // }, [coordsArray]);
 
   /* Get coordinates */
   const getGeocodes = () => {
@@ -32,14 +46,14 @@ const Map = ({ events }) => {
     return coordsPromises;
   };
 
-  const handleGeoCodes = async () => {
+  const handleGeocodes = async () => {
     try {
-      var allCoords = await Promise.all(getGeocodes()).then((res) => {
-        console.log(res);
-        return res;
+      var allCoords = await Promise.all(getGeocodes()).then((result) => {
+        console.log(result);
+        return result;
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
     } finally {
       setCoordsArray(allCoords);
     }
@@ -53,7 +67,12 @@ const Map = ({ events }) => {
     height: '800px',
   };
 
-  const center = {
+  // let centerSet = {
+  //   lat: center.latitude,
+  //   lng: center.longigude,
+  // };
+
+  let centerSet = {
     lat: 34.052235,
     lng: -118.243683,
   };
@@ -78,7 +97,7 @@ const Map = ({ events }) => {
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={center}
+      center={centerSet}
       zoom={10}
       onLoad={onLoad}
       onUnmount={onUnmount}
