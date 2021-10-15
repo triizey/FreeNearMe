@@ -4,8 +4,13 @@ import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { getCenter } from 'geolib';
 
 const Map = ({ events }) => {
-  /* Get coordinates */
+  const [coordsArray, setCoordsArray] = useState([]);
 
+  useEffect(() => {
+    handleGeoCodes();
+  }, []);
+
+  /* Get coordinates */
   const getGeocodes = () => {
     let coordsPromises = [];
     for (let i = 0; i < events.length; i++) {
@@ -24,21 +29,25 @@ const Map = ({ events }) => {
           .catch((error) => console.error(error)),
       );
     }
-    return Promise.all(coordsPromises)
-      .then((result) => {
-        console.log(result);
-        return result?.map((coord) => ({
-          latitude: coord?.lat,
-          longigude: coord?.lng,
-        }));
-      })
-      .catch((error) => console.error(error));
+    return coordsPromises;
   };
-  // Caculate the center of the array
-  let coords = getGeocodes();
-  console.log(coords);
 
-  // Map config
+  const handleGeoCodes = async () => {
+    try {
+      var allCoords = await Promise.all(getGeocodes()).then((res) => {
+        console.log(res);
+        return res;
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setCoordsArray(allCoords);
+    }
+  };
+
+  /* Calculate center of all the events to locate the map */
+
+  /* Map Config */
   const containerStyle = {
     width: '100%',
     height: '800px',

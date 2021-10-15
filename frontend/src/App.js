@@ -27,7 +27,7 @@ const App = () => {
       console.log(data.length);
     };
     fetchEvents();
-  }, [zipcode]);
+  }, []);
 
   const SignInWithGoogle = () => {
     const google_provider = new firebase.auth.GoogleAuthProvider(); // creates a provider
