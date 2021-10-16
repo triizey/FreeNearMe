@@ -3,32 +3,7 @@ import axios from 'axios';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { getCenter } from 'geolib';
 
-<<<<<<< HEAD
 const Map = ({ events, width, height }) => {
-  const [coordsArray, setCoordsArray] = useState([]);
-  const [center, setCenter] = useState({
-    lat: 34.052235,
-    lng: -118.243683,
-  });
-
-  // useEffect(() => {
-  //   handleGeocodes();
-  // }, []);
-
-  // useEffect(() => {
-  //   const formattedCoords = coordsArray.map((coord) => ({
-  //     latitude: coord?.lat,
-  //     longitude: coord?.lng,
-  //   }));
-  //   const centerCalc = getCenter(formattedCoords);
-
-  //   console.log(coordsArray);
-  // }, [coordsArray]);
-||||||| a0a3d4e
-const Map = ({ events }) => {
-  /* Get coordinates */
-=======
-const Map = ({ events }) => {
   const [coordsArray, setCoordsArray] = useState([]);
   const [centerCalced, setCenterCalced] = useState({
     latitude: 34.052235,
@@ -39,15 +14,14 @@ const Map = ({ events }) => {
     handleGeoCodes();
   }, []);
 
-  useEffect(() => {
-    const formattedCoords = coordsArray.map((coord) => ({
-      latitude: coord.lat,
-      longitude: coord.lng,
-    }));
-    setCenterCalced(getCenter(formattedCoords));
-    console.log(center);
-  }, [coordsArray]);
->>>>>>> 3e608553710c738449e4e3c4356e08bf50c1d3a1
+  // useEffect(() => {
+  //   const formattedCoords = coordsArray.map((coord) => ({
+  //     latitude: coord.lat,
+  //     longitude: coord.lng,
+  //   }));
+  //   setCenterCalced(getCenter(formattedCoords));
+  //   console.log(center);
+  // }, [coordsArray]);
 
   /* Get coordinates */
   const getGeocodes = () => {
@@ -68,43 +42,9 @@ const Map = ({ events }) => {
           .catch((error) => console.error(error)),
       );
     }
-<<<<<<< HEAD
     return coordsPromises;
   };
 
-  const handleGeocodes = async () => {
-    try {
-      var allCoords = await Promise.all(getGeocodes()).then((result) => {
-        console.log(result);
-        return result;
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setCoordsArray(allCoords);
-    }
-||||||| a0a3d4e
-    return Promise.all(coordsPromises)
-      .then((result) => {
-        console.log(result);
-        return result?.map((coord) => ({
-          latitude: coord?.lat,
-          longigude: coord?.lng,
-        }));
-      })
-      .catch((error) => console.error(error));
-=======
-    return coordsPromises;
->>>>>>> 3e608553710c738449e4e3c4356e08bf50c1d3a1
-  };
-
-<<<<<<< HEAD
-  /* Calculate center of all the events to locate the map */
-
-  /* Map Config */
-||||||| a0a3d4e
-  // Map config
-=======
   const handleGeoCodes = async () => {
     try {
       var allCoords = await Promise.all(getGeocodes()).then((res) => {
@@ -120,30 +60,14 @@ const Map = ({ events }) => {
   /* Calculate center of all the events to locate the map */
 
   /* Map Config */
->>>>>>> 3e608553710c738449e4e3c4356e08bf50c1d3a1
   const containerStyle = {
     width: width,
     height: height,
   };
 
-<<<<<<< HEAD
-  // let centerSet = {
-  //   lat: center.latitude,
-  //   lng: center.longigude,
-  // };
-
-  let centerSet = {
-    lat: 34.052235,
-    lng: -118.243683,
-||||||| a0a3d4e
-  const center = {
-    lat: 34.052235,
-    lng: -118.243683,
-=======
   const center = {
     lat: centerCalced.latitude,
     lng: centerCalced.longitude,
->>>>>>> 3e608553710c738449e4e3c4356e08bf50c1d3a1
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -166,7 +90,7 @@ const Map = ({ events }) => {
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={centerSet}
+      center={center}
       zoom={10}
       onLoad={onLoad}
       onUnmount={onUnmount}

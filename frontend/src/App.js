@@ -9,7 +9,7 @@ import EventContext from './utils/EventContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { outdatedFilter } from './components/dataFilter';
-import Details from './components/Details';
+import Details from './pages/Details';
 
 const App = () => {
   const [defaultEvents, setDefaultEvents] = useState([]);
