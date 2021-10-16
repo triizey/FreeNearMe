@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import Map from '../components/Map';
 import SmallCard from '../components/SmallCard';
+import EventsCarousel from '../components/EventsCarousel';
+
+
 
 const Home = ({ events }) => {
   const getImgRandomNo = () => {
@@ -35,7 +38,7 @@ const Home = ({ events }) => {
         {/* upcoming events */}
         <section className="mt-12">
           <h1 className="h1 text-cust-black font-header">Upcoming Events</h1>
-          //EVENT CROUSEL
+          <EventsCarousel events={events} />
         </section>
       </main>
     </div>
