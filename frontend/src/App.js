@@ -9,6 +9,7 @@ import EventContext from "./utils/EventContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import useGetUserID from "./customHooks/useGetUserID";
+import EventDetails from "./pages/EventDetails";
 
 const App = () => {
   const [defaultEvents, setDefaultEvents] = useState([]);
@@ -135,6 +136,7 @@ const App = () => {
             <Route exact path="/myEvents">
               <MyEvents events={defaultEvents} />
             </Route>
+            <Route path="/eventDetails/:uuid" render={(props) => <EventDetails events={defaultEvents} {...props} />} />
             <Route exact path="/">
               <Home handleLogout={handleLogout} events={defaultEvents} />
             </Route>

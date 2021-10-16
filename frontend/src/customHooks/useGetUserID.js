@@ -9,12 +9,14 @@
 
 import { useState, useEffect } from "react";
 import { firebase } from "../firebase";
+import { handleUserProfile } from "../utils/firebaseUtils";
 
 const useGetUserID = () => {
   const [userID, setUserID] = useState("");
 
   useEffect(() => {
     getUserID();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getCurrentUser = () => {
@@ -38,6 +40,7 @@ const useGetUserID = () => {
       console.log(error);
     } finally {
       setUserID(userID);
+      handleUserProfile(userID);
     }
   };
 
