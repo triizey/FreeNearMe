@@ -12,6 +12,10 @@ import Map from '../components/Map';
 
 const Details = (props) => {
   const [event, setEvent] = useState({});
+  const [coords, setCoords] = useState({
+    lat: 34.052235,
+    lng: -118.243683,
+  });
 
   const getImgRandomNo = () => {
     return Math.floor(Math.random() * 9);
@@ -21,6 +25,19 @@ const Details = (props) => {
     axios.get(`/api/events/${props.match.params.uuid}`).then((resolve) => {
       setEvent(resolve.data);
     });
+
+    axios('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: {
+        address: event.location,
+        key: 'AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE',
+      },
+    })
+      .then((res) => {
+        if (res.data.status === 'OK') {
+          console.log(res.data.results[0].geometry.location);
+        }
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   return (
@@ -74,8 +91,9 @@ const Details = (props) => {
               </a>
             </button>
           </div>
+
           <h2 className="main__title">Map</h2>
-          <Map width="500px" height="600px" />
+          <Map width="500px" height="300px" center={coords} />
         </div>
       </div>
     </>
