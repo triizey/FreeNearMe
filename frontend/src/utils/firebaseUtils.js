@@ -35,7 +35,7 @@ export const handleUserFavorites = async ({ userID, event }) => {
   if (!userID) return;
   const { uid } = event;
 
-  const eventRef = firestore.doc(`userevents/${userID}/myevents/${uid}`);
+  const eventRef = firestore.doc(`users/${userID}/myevents/${uid}`);
   const snapshot = await eventRef.get();
 
   if (!snapshot.exists) {
