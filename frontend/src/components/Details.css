@@ -1,0 +1,51 @@
+.main {
+	@apply md:container mx-auto flex gap-8 items-start pb-10;
+}
+
+.main-left {
+	@apply w-3/5;
+}
+
+.main-left__image {
+	@apply p-0 rounded-lg overflow-hidden mb-10 h-96;
+}
+
+.main-left__image img {
+	@apply w-full h-full object-cover;
+}
+
+.main__title {
+	@apply text-xl text-cust-black font-bold mb-4;
+}
+
+.main-right {
+	@apply w-2/5;
+}
+
+.main-right__title {
+	@apply text-3xl text-cust-black font-bold mb-6;
+}
+
+.main-right__meta {
+	@apply w-full mb-8;
+}
+
+.meta__date,
+.meta__time,
+.meta__location {
+	@apply flex items-start text-cust-black mb-4;
+}
+
+.meta__date span,
+.meta__time span,
+.meta__location span {
+	@apply text-base ml-2;
+}
+
+.main-right__buttons {
+	@apply flex items-center;
+}
+
+.main-right > .main__title {
+	@apply mt-10;
+}

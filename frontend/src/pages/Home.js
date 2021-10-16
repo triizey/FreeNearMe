@@ -28,7 +28,7 @@ const Home = ({ events }) => {
               ))}
             </section>
             <section className="hidden md:block w-full">
-              <Map events={events} />
+              <Map events={events} width="100%" height="800px" />
             </section>
           </div>
         </div>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { getCenter } from 'geolib';
 
-const Map = ({ events }) => {
+const Map = ({ events, width, height }) => {
   const [coordsArray, setCoordsArray] = useState([]);
   const [center, setCenter] = useState({
     lat: 34.052235,
@@ -63,8 +63,8 @@ const Map = ({ events }) => {
 
   /* Map Config */
   const containerStyle = {
-    width: '100%',
-    height: '800px',
+    width: width,
+    height: height,
   };
 
   // let centerSet = {

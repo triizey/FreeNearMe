@@ -9,6 +9,7 @@ import EventContext from './utils/EventContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { outdatedFilter } from './components/dataFilter';
+import Details from './components/Details';
 
 const App = () => {
   const [defaultEvents, setDefaultEvents] = useState([]);
@@ -140,6 +141,10 @@ const App = () => {
             <Route exact path="/">
               <Home handleLogout={handleLogout} events={defaultEvents} />
             </Route>
+            <Route
+              path="/eventDetails/:uuid"
+              render={(props) => <Details {...props} />}
+            />
           </Switch>
         </div>
         <Footer />

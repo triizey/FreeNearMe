@@ -1,6 +1,5 @@
 import React from 'react';
 import Slider, { SliderTooltip } from 'rc-slider';
-// import Slider, { Range } from 'rc-slider';
 import { useHistory } from 'react-router-dom';
 import 'rc-slider/assets/index.css';
 import 'flatpickr/dist/themes/airbnb.css';
