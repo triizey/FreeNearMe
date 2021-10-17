@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import SignIn from './pages/SignIn';
+// import SignIn from './pages/SignIn';
 import MyEvents from './pages/MyEvents';
-import { firebase } from './firebase';
+// import { firebase } from './firebase';
 import EventContext from './utils/EventContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { outdatedFilter } from './components/dataFilter';
+import SignIn from './pages/SignIn';
+import {firebase} from './firebase'
 
 const App = () => {
   const [defaultEvents, setDefaultEvents] = useState([]);
@@ -114,7 +116,6 @@ const App = () => {
   const authListener = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // every time user logs in or signup then we have user so we want to clear the inputs and set the user
         console.log(user);
         if (!user.multiFactor.user.email.includes('.edu')) {
           setUser('');
@@ -128,17 +129,42 @@ const App = () => {
     });
   };
 
+  useEffect(()=>{
+    authListener();
+  })
+
   return (
     <EventContext.Provider value={{ defaultEvents }}>
       <Router>
         <Header />
+        
         <div>
           <Switch>
             <Route exact path="/myEvents">
               <MyEvents events={defaultEvents} />
             </Route>
+            <Route exact path="/SignIn">
+              <SignIn 
+                       user={user}
+                        email={email}
+                        setEmail={setEmail}
+                        password={password}
+                        setPassword={setPassword}
+                       
+                        handleLogin={handleLogin}
+                        handleLogout={handleLogout}
+                        handleSignup={handleSignup}
+                        hasAccount={hasAccount}
+                        setHasAccount={setHasAccount}
+                        emailError={emailError}
+                        passwordError={passwordError}
+                        SignInWithGoogle={SignInWithGoogle}
+               />
+            </Route>
             <Route exact path="/">
-              <Home handleLogout={handleLogout} events={defaultEvents} />
+              <Home 
+              // handleLogout={handleLogout}
+               events={defaultEvents} />
             </Route>
           </Switch>
         </div>

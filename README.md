@@ -43,13 +43,15 @@ Use these steps to clone from SourceTree, our client for using the repository co
 
 Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
 
-
+add .env file in backend
 all commands in npm
 git clone https://github.com/triizey/FreeNearMe.git
 ls
 git checkout -b JasveerBranch
 cd frontend
 npm i
+npm i @react-google-maps/api  in frontend
+
 cd backend
 npm i
 npm run dev      ---in backend folder only it will run the whole project

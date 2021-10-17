@@ -6,12 +6,12 @@ export default styled.div`
   align-items: center;
   height: 180px;
   width: 100%;
-  background-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.4),
-      rgba(0, 0, 0, 0.6)
-    ),
-    url(${(props) => props.imgSrc});
+  background-image:url(${(props) => props.imgSrc})
+  linear-gradient(
+  to bottom,
+  rgba(0, 0, 0, 0.4),
+  rgba(0, 0, 0, 0.6)
+),;
   border-radius: 8px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -22,3 +22,5 @@ export default styled.div`
   text-align: center;
   cursor: pointer;
 `;
+
+

@@ -9,6 +9,8 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRangePicker } from 'react-date-range';
 import { Calendar } from 'react-date-range';
+import SignIn from '../pages/SignIn';
+import {firebase} from '../firebase'
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -42,6 +44,9 @@ const wrapperStyle = { width: 200 };
 export default function Header() {
   let date = new Date();
   const history = useHistory();
+
+
+  
 
   return (
     <div className="main_screen">
@@ -118,12 +123,18 @@ export default function Header() {
               src="./images/notifications.png"
             />
           </button>
-          <button
-            className="ml-8 mr-2 bg-cust-orange hover:bg-yellow-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-          >
-            Sign In
-          </button>
+      
+           <button
+             onClick={() => {
+              history.push("/SignIn");
+            }}
+          className="ml-8 mr-2 bg-cust-orange hover:bg-yellow-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="button"
+        >
+          Sign In
+        </button>
+     
+       
         </div>
       </div>
     </div>

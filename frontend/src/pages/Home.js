@@ -38,7 +38,8 @@ const Home = ({ events }) => {
         {/* upcoming events */}
         <section className="mt-12">
           <h1 className="h1 text-cust-black font-header">Upcoming Events</h1>
-          <EventsCarousel events={events} />
+          <EventsCarousel events={events} 
+           />
         </section>
       </main>
     </div>
