@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import SignIn from './pages/SignIn';
+// import SignIn from './pages/SignIn';
 import MyEvents from './pages/MyEvents';
-import { firebase } from './firebase';
+// import { firebase } from './firebase';
 import EventContext from './utils/EventContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { outdatedFilter } from './components/dataFilter';
+<<<<<<< HEAD
+import SignIn from './pages/SignIn';
+import {firebase} from './firebase'
+=======
 import Details from './pages/Details';
 import Zipcode from './pages/Zipcode';
+>>>>>>> c2c9fe4ac0b08f53fabb9e7a06645ad1ca0dd227
 
 const App = () => {
   const [events, setEvents] = useState([]);
@@ -124,7 +129,6 @@ const App = () => {
   const authListener = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // every time user logs in or signup then we have user so we want to clear the inputs and set the user
         console.log(user);
         if (!user.multiFactor.user.email.includes('.edu')) {
           setUser('');
@@ -138,10 +142,15 @@ const App = () => {
     });
   };
 
+  useEffect(()=>{
+    authListener();
+  })
+
   return (
     <EventContext.Provider value={{ events }}>
       <Router>
         <Header />
+        
         <div>
           <Switch>
             <Route path="/zipcode/:id">
@@ -149,13 +158,43 @@ const App = () => {
             </Route>
             {/* <Route path="/myEvents">
               <MyEvents events={events} />
+<<<<<<< HEAD
             </Route> */}
             <Route
               path="/myEvents"
               render={(props) => <MyEvents {...props} events={events} />}
             />
+||||||| ef78a26
+            </Route>
+=======
+            </Route>
+            <Route exact path="/SignIn">
+              <SignIn 
+                       user={user}
+                        email={email}
+                        setEmail={setEmail}
+                        password={password}
+                        setPassword={setPassword}
+                       
+                        handleLogin={handleLogin}
+                        handleLogout={handleLogout}
+                        handleSignup={handleSignup}
+                        hasAccount={hasAccount}
+                        setHasAccount={setHasAccount}
+                        emailError={emailError}
+                        passwordError={passwordError}
+                        SignInWithGoogle={SignInWithGoogle}
+               />
+            </Route>
+>>>>>>> ecb28e47a304c1072335f856d1e0f1a35e0525bf
             <Route exact path="/">
+<<<<<<< HEAD
+              <Home 
+              // handleLogout={handleLogout}
+               events={defaultEvents} />
+=======
               <Home handleLogout={handleLogout} events={events} />
+>>>>>>> c2c9fe4ac0b08f53fabb9e7a06645ad1ca0dd227
             </Route>
             <Route
               path="/events/:uuid"
