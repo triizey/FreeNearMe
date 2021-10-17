@@ -4,14 +4,12 @@ import { useHistory } from "react-router-dom";
 const SmallCard = ({ event, imgSrc }) => {
   const history = useHistory();
 
-  const handleEvent = () => {
-    history.push(`/eventdetails/${event.uid}`);
-  };
-
   return (
     <div
       className="flex justify-between py-4 px-6 border-b first:border-t cursor-pointer hover:opacity-80 hover:shadow-lg hover:-translate-y-2 transform transition-all sm:flex-row-reverse md:justify-evenly bg-white"
-      onClick={handleEvent}
+      onClick={() => {
+        history.push(`/eventDetails/${event.uid}`);
+      }}
     >
       <div className="flex flex-col sm:w-96 ">
         <h4 className="text-custBlack font-main-text text-xs">{`${event.date}   ${event.time}`}</h4>

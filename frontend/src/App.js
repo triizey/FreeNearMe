@@ -8,13 +8,12 @@ import { firebase } from "./firebase";
 import EventContext from "./utils/EventContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import useGetUserID from "./customHooks/useGetUserID";
-import EventDetails from "./pages/EventDetails";
-import useGetUserEvents from "./customHooks/useGetUserEvents";
+import { outdatedFilter } from "./components/dataFilter";
+import Details from "./pages/Details";
+import Zipcode from "./pages/Zipcode";
 
 const App = () => {
-  const [defaultEvents, setDefaultEvents] = useState([]);
-  const [zipcode, setZipcode] = useState("94203");
+  const [events, setEvents] = useState([]);
 
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
@@ -22,16 +21,27 @@ const App = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [hasAccount, setHasAccount] = useState(false);
-  const [userID] = useGetUserID();
+
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     const { data } = await axios.get('/api/events');
+  //     setEvents(data);
+
+  //     console.log(data.length);
+  //   };
+  //   fetchEvents();
+  // }, []);
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const { data } = await axios.get("/api/events/defaultEvents");
-      setDefaultEvents(data);
-      console.log(data.length);
+      const { data } = await axios.get("/api/events");
+      const updatedData = outdatedFilter(data);
+      setEvents(updatedData);
+      console.log(updatedData.length);
+      // console.log(updatedData);
     };
     fetchEvents();
-  }, [zipcode]);
+  }, []);
 
   const SignInWithGoogle = () => {
     const google_provider = new firebase.auth.GoogleAuthProvider(); // creates a provider
@@ -129,18 +139,21 @@ const App = () => {
   };
 
   return (
-    <EventContext.Provider value={{ defaultEvents }}>
+    <EventContext.Provider value={{ events }}>
       <Router>
         <Header />
         <div>
           <Switch>
+            <Route path="/zipcode/:id">
+              <Zipcode events={events} />
+            </Route>
             <Route exact path="/myEvents">
-              <MyEvents events={defaultEvents} />
+              <MyEvents events={events} />
             </Route>
-            <Route path="/eventDetails/:uuid" render={(props) => <EventDetails events={defaultEvents} {...props} />} />
             <Route exact path="/">
-              <Home handleLogout={handleLogout} events={defaultEvents} />
+              <Home handleLogout={handleLogout} events={events} />
             </Route>
+            <Route path="/eventDetails/:uuid" render={(props) => <Details {...props} />} />
           </Switch>
         </div>
         <Footer />
