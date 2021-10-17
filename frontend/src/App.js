@@ -149,7 +149,6 @@ const App = () => {
     <EventContext.Provider value={{ events }}>
       <Router>
         <Header user={user} />
-
         <div>
           <Switch>
             <Route path="/zipcode/:id">

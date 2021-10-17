@@ -27,6 +27,13 @@ const Zipcode = ({ events }) => {
   //   console.log(events.length);
   // }, []);
 
+  const caCoords = [
+    { latitude: 34.052235, longitude: -118.243683 },
+    { latitude: 35.45861, longitude: -119.35516 },
+    { latitude: 37.7749295, longitude: -122.4194155 },
+    { latitude: 9.9346304, longitude: -84.0923248 },
+  ];
+
   return (
     <div>
       <main className="main_screen">
@@ -60,7 +67,12 @@ const Zipcode = ({ events }) => {
                 ))}
             </section>
             <section className="hidden md:block w-full">
-              <Map events={events} width="100%" height="800px" />
+              <Map
+                events={events}
+                width="100%"
+                height="800px"
+                geoCodes={caCoords}
+              />
             </section>
           </div>
         </div>

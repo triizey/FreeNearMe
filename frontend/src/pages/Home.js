@@ -3,7 +3,7 @@ import Map from '../components/Map';
 import SmallCard from '../components/SmallCard';
 import EventsCarousel from '../components/EventsCarousel';
 
-const Home = ({ events, defaultEvents }) => {
+const Home = ({ events }) => {
   // const defaultGeoCodes = geoCodes.filter(
   //   (code) => code.uid === nyDefaultEvents.uid,
   // );
@@ -52,7 +52,9 @@ const Home = ({ events, defaultEvents }) => {
         </div>
         {/* upcoming events */}
         <section className="mt-12">
-          <h1 className="h1 text-cust-black font-header">Upcoming Events</h1>
+          <h1 className="h1 text-cust-black font-header">
+            Events you may like
+          </h1>
           <EventsCarousel events={events} />
         </section>
       </main>
