@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import SignIn from "./pages/SignIn";
-import MyEvents from "./pages/MyEvents";
-import { firebase } from "./firebase";
-import EventContext from "./utils/EventContext";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import { outdatedFilter } from "./components/dataFilter";
-import Details from "./pages/Details";
-import Zipcode from "./pages/Zipcode";
-import { handleGeoCodes } from "./utils/firebaseUtils";
-import useFirestore from "./customHooks/useFirestore";
-import Story from "./pages/Story";
-import Team from "./pages/Team";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import SignIn from './pages/SignIn';
+import MyEvents from './pages/MyEvents';
+import { firebase } from './firebase';
+import EventContext from './utils/EventContext';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { outdatedFilter } from './components/dataFilter';
+import Details from './pages/Details';
+import Zipcode from './pages/Zipcode';
+import { handleGeoCodes } from './utils/firebaseUtils';
+import useFirestore from './customHooks/useFirestore';
+import Story from './pages/Story';
+import Team from './pages/Team';
 
 const App = () => {
   const [events, setEvents] = useState([]);
   const [userID, setUserID] = useState();
   const [eventsCount, setEventsCount] = useState(0);
 
-  const geoCodes = useFirestore("eventlocations");
+  const geoCodes = useFirestore('eventlocations');
 
-  const [user, setUser] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(false);
 
   // useEffect(() => {
@@ -42,7 +42,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const { data } = await axios.get("/api/events");
+      const { data } = await axios.get('/api/events');
       const updatedData = outdatedFilter(data);
       setEvents(updatedData);
       // console.log(updatedData.length);
@@ -51,11 +51,11 @@ const App = () => {
     fetchEvents();
   }, []);
 
-  useEffect(() => {
-    events.forEach((event) => {
-      handleGeoCodes(event);
-    });
-  }, [events]);
+  // useEffect(() => {
+  //   events.forEach((event) => {
+  //     handleGeoCodes(event);
+  //   });
+  // }, [events]);
 
   const SignInWithGoogle = () => {
     const google_provider = new firebase.auth.GoogleAuthProvider(); // creates a provider
@@ -64,8 +64,8 @@ const App = () => {
       .signInWithPopup(google_provider)
       .then((res) => {
         // console.log(res);
-        if (!res.additionalUserInfo.profile.email.includes(".edu")) {
-          setUser("");
+        if (!res.additionalUserInfo.profile.email.includes('.edu')) {
+          setUser('');
         }
       })
       .catch((err) => {
@@ -74,28 +74,28 @@ const App = () => {
   };
 
   const clearInputs = () => {
-    setEmail("");
-    setPassword("");
+    setEmail('');
+    setPassword('');
   };
   const clearErrors = () => {
-    setEmailError("");
-    setPasswordError("");
+    setEmailError('');
+    setPasswordError('');
   };
 
   const handleLogin = () => {
-    if (email.includes(".edu")) {
+    if (email.includes('.edu')) {
       clearErrors();
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
         .catch((err) => {
           switch (err.code) {
-            case "auth/invalid-email":
-            case "auth/user-disabled":
-            case "auth/user-not-found":
+            case 'auth/invalid-email':
+            case 'auth/user-disabled':
+            case 'auth/user-not-found':
               setEmailError(err.message);
               break;
-            case "auth/wrong-password":
+            case 'auth/wrong-password':
               setPasswordError(err.message);
               break;
             default:
@@ -103,23 +103,23 @@ const App = () => {
           }
         });
     } else {
-      setEmailError("email is not valid");
+      setEmailError('email is not valid');
     }
   };
 
   const handleSignup = () => {
-    if (email.includes(".edu")) {
+    if (email.includes('.edu')) {
       clearErrors();
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .catch((err) => {
           switch (err.code) {
-            case "auth/email-already-in-use":
-            case "auth/invalid-email":
+            case 'auth/email-already-in-use':
+            case 'auth/invalid-email':
               setEmailError(err.message);
               break;
-            case "auth/weak-password":
+            case 'auth/weak-password':
               setPasswordError(err.message);
               break;
             default:
@@ -127,7 +127,7 @@ const App = () => {
           }
         });
     } else {
-      setEmailError("email is not valid");
+      setEmailError('email is not valid');
     }
   };
 
@@ -135,8 +135,8 @@ const App = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // console.log(user);
-        if (!user.multiFactor.user.email.includes(".edu")) {
-          setUser("");
+        if (!user.multiFactor.user.email.includes('.edu')) {
+          setUser('');
           setUserID(null);
           return;
         }
@@ -144,7 +144,7 @@ const App = () => {
         setUser(user);
         setUserID(user.uid);
       } else {
-        setUser("");
+        setUser('');
         setUserID(null);
       }
     });
@@ -170,10 +170,10 @@ const App = () => {
               </Route>
             )}
             <Route path="/story">
-              <Story/>
+              <Story />
             </Route>
             <Route path="/team">
-              <Team/>
+              <Team />
             </Route>
             <Route exact path="/SignIn">
               <SignIn
@@ -194,7 +194,10 @@ const App = () => {
             <Route exact path="/">
               <Home events={events} />
             </Route>
-            <Route path="/events/:uuid" render={(props) => <Details {...props} user={user} />} />
+            <Route
+              path="/events/:uuid"
+              render={(props) => <Details {...props} user={user} />}
+            />
           </Switch>
         </div>
         <Footer />
