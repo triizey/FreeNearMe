@@ -10,6 +10,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import useGetUserID from "./customHooks/useGetUserID";
 import EventDetails from "./pages/EventDetails";
+import useGetUserEvents from "./customHooks/useGetUserEvents";
 
 const App = () => {
   const [defaultEvents, setDefaultEvents] = useState([]);
