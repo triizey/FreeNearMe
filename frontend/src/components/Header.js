@@ -8,7 +8,12 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRangePicker } from 'react-date-range';
 import { Calendar } from 'react-date-range';
+<<<<<<< HEAD
+import SignIn from '../pages/SignIn';
+import {firebase} from '../firebase'
+=======
 import { useHistory } from 'react-router-dom';
+>>>>>>> c2c9fe4ac0b08f53fabb9e7a06645ad1ca0dd227
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -51,10 +56,18 @@ function is_usZipCode(str) {
 
 export default function Header() {
   let date = new Date();
+<<<<<<< HEAD
+  const history = useHistory();
+
+
+  
+
+=======
   const [zipcode, setZip] = useState('');
   const [selecteddate, setDate] = useState('');
   const [errormsg, setError] = useState('');
   let history = useHistory();
+>>>>>>> c2c9fe4ac0b08f53fabb9e7a06645ad1ca0dd227
   return (
     <div className="main_screen">
       <div className=" bg-white flex flex-row items-center justify-around">
@@ -141,6 +154,20 @@ export default function Header() {
           >
             My Events
           </button>
+<<<<<<< HEAD
+      
+           <button
+             onClick={() => {
+              history.push("/SignIn");
+            }}
+          className="ml-8 mr-2 bg-cust-orange hover:bg-yellow-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="button"
+        >
+          Sign In
+        </button>
+     
+       
+=======
           <img
             className="cursor-pointer hover:opacity-50"
             src="./images/notifications.png"
@@ -151,6 +178,7 @@ export default function Header() {
           >
             Sign In
           </button>
+>>>>>>> c2c9fe4ac0b08f53fabb9e7a06645ad1ca0dd227
         </div>
       </div>
       <h1 className="w-full center text-center h-auto">{errormsg}</h1>
