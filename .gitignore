@@ -39,6 +39,7 @@ Thumbs.db
 *.app
 *.exe
 *.war
+*.eslintcache
 
 # Large media files
 *.mp4
@@ -71,6 +72,7 @@ Thumbs.db
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
 /frontend/yarn-error.log*
+/frontend/.eslintcache
 
 
 # backend

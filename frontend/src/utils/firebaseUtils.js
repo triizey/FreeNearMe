@@ -1,6 +1,9 @@
-import { firebase } from '../firebase';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import axios from "axios";
+import { useState, useEffect } from "react";
+
+import { firebase } from "../firebase";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
 
 const firestore = firebase.firestore();
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
@@ -12,9 +15,9 @@ export const handleUserProfile = async (userID) => {
   const snapshot = await userRef.get();
 
   if (!snapshot.exists) {
-    const displayName = 'UserName';
-    const email = 'userEmail';
-    const userRoles = ['user'];
+    const displayName = "UserName";
+    const email = "userEmail";
+    const userRoles = ["user"];
 
     try {
       await userRef.set({
@@ -49,4 +52,42 @@ export const handleUserFavorites = async ({ userID, event }) => {
   }
 
   return eventRef;
+};
+
+export const handleGeoCodes = async (event) => {
+  if (!event) return;
+  const { uid, location } = event;
+
+  const locationRef = firestore.doc(`eventlocations/${uid}`);
+  const snapshot = await locationRef.get();
+
+  const coordPromise = axios("https://maps.googleapis.com/maps/api/geocode/json", {
+    params: {
+      address: location,
+      key: "AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE",
+    },
+  })
+    .then((res) => {
+      if (res.data.status === "OK") {
+        return res.data.results[0].geometry.location;
+      }
+    })
+    .catch((error) => console.error(error));
+
+  if (!snapshot.exists) {
+    const handleLocation = async () => {
+      try {
+        await coordPromise.then((res) => {
+          locationRef.set({
+            ...res,
+          });
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    handleLocation();
+  }
+
+  return locationRef;
 };

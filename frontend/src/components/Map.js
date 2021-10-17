@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-import { getCenter } from 'geolib';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import { getCenter } from "geolib";
 
 const Map = ({ events, width, height, center }) => {
   // const [centerCalced, setCenterCalced] = useState({
@@ -18,8 +18,8 @@ const Map = ({ events, width, height, center }) => {
   };
 
   const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE',
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE",
   });
 
   const [map, setMap] = React.useState(null);
@@ -35,13 +35,7 @@ const Map = ({ events, width, height, center }) => {
   }, []);
 
   return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={10}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
+    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10} onLoad={onLoad} onUnmount={onUnmount}>
       <>
         {/* {events.map((event) => (
           <Marker

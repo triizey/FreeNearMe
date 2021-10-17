@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './Details.css';
-import {
-  CalendarIcon,
-  LocationMarkerIcon,
-  ClockIcon,
-  BookmarkIcon,
-  LinkIcon,
-} from '@heroicons/react/outline';
-import Map from '../components/Map';
-import useGetUserID from '../customHooks/useGetUserID';
-import { handleUserFavorites } from '../utils/firebaseUtils';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./Details.css";
+import { CalendarIcon, LocationMarkerIcon, ClockIcon, BookmarkIcon, LinkIcon } from "@heroicons/react/outline";
+import Map from "../components/Map";
+import useGetUserID from "../customHooks/useGetUserID";
+import { handleUserFavorites } from "../utils/firebaseUtils";
 
 const Details = ({ location, history, match, user }) => {
   const [event, setEvent] = useState({});
@@ -39,7 +33,7 @@ const Details = ({ location, history, match, user }) => {
 
   const saveHandler = () => {
     if (!user) {
-      history.push('/SignIn');
+      history.push("/SignIn");
     }
     handleUserFavorites({ userID, event });
     // history.push('/login?redirect=myEvents');
@@ -59,14 +53,7 @@ const Details = ({ location, history, match, user }) => {
       <div className="main">
         <div className="main-left">
           <div className="hidden md:block main-left__image">
-            <img
-              src={
-                event.imgs
-                  ? event.imgs
-                  : `/images/food_event${getImgRandomNo()}.jpg`
-              }
-              alt=""
-            />
+            <img src={event.imgs ? event.imgs : `/images/food_event${getImgRandomNo()}.jpg`} alt="" />
           </div>
           <div className="main-body">
             <h2 className="main__title">Description</h2>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import { useHistory } from "react-router-dom";
 
 const SmallCard = ({ event, imgSrc }) => {
   const history = useHistory();
@@ -12,9 +12,7 @@ const SmallCard = ({ event, imgSrc }) => {
       }}
     >
       <div className="flex flex-col sm:w-96 ">
-        <h4 className="text-custBlack font-main-text text-xs">
-          {`${event.date}   ${event.time}`}
-        </h4>
+        <h4 className="text-custBlack font-main-text text-xs">{`${event.date}   ${event.time}`}</h4>
         <h2 className="text-lg py-2">{event.name}</h2>
         <div className="w-10 border-t flex-grow mb-3" />
         <h4 className="text-gray-400 text-sm">{event.location}</h4>

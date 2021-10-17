@@ -7,12 +7,12 @@
 
 // MUST be logged in, in order for a return or the promise will get rejected :)
 
-import { useState, useEffect } from 'react';
-import { firebase } from '../firebase';
-import { handleUserProfile } from '../utils/firebaseUtils';
+import { useState, useEffect } from "react";
+import { firebase } from "../firebase";
+import { handleUserProfile } from "../utils/firebaseUtils";
 
 const useGetUserID = () => {
-  const [userID, setUserID] = useState('');
+  const [userID, setUserID] = useState("");
 
   useEffect(() => {
     getUserID();
