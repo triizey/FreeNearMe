@@ -45,8 +45,6 @@ const getEventsByZip = asyncHandler(async (req, res) => {
   Event.find({
     zipcode: { $regex: substring },
     $options: 'i',
-
-    // { date: { $gte: new Date('Sun, October 10, 2021') } },
   }).then((data) => res.send(data));
 });
 
