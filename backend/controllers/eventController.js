@@ -18,7 +18,7 @@ const getDefaultEvents = asyncHandler(async (req, res) => {
     $and: [
       { name: { $ne: null } },
       { location: { $ne: null } },
-      { zipcode: { $regex: 'NY' } },
+      { zipcode: { $regex: 'CA' } },
     ],
   }).then((data) => res.send(data));
 });

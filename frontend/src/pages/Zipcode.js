@@ -47,11 +47,21 @@ const Zipcode = ({ events }) => {
             <section className="scrollbar-thin mb-8 h-5/6 top-24 left-5 md:absolute md:z-10 overflow-y-scroll scrollbar-thumb-cust-black scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
               {events
                 .filter((event) =>
-                  new RegExp(params.id.slice(0, -2)).test(
-                    event.zipcode
-                      .substr(event.zipcode.length - 5)
-                      .substring(0, 3),
-                  ),
+                  params.id.substring(5).length > 3
+                    ? new RegExp(params.id.substring(0, 5).slice(0, -2)).test(
+                        event.zipcode
+                          .substr(event.zipcode.length - 5)
+                          .substring(0, 3),
+                      ) &&
+                      Date.parse(event.date) <
+                        parseInt(params.id.substring(5)) + 86400 &&
+                      Date.parse(event.date) >
+                        parseInt(params.id.substring(5)) - 86400
+                    : new RegExp(params.id.substring(0, 5).slice(0, -2)).test(
+                        event.zipcode
+                          .substr(event.zipcode.length - 5)
+                          .substring(0, 3),
+                      ),
                 )
                 .map((event) => (
                   // events.filter(event => event.zipcode.includes("902")).map((event) => (
@@ -65,6 +75,7 @@ const Zipcode = ({ events }) => {
                     }
                   />
                 ))}
+              ​ ​ ​
             </section>
             <section className="hidden md:block w-full">
               <Map

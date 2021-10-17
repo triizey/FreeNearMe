@@ -9,6 +9,7 @@ const Map = ({ width, height, geoCodes }) => {
   //     longitude: code.lng,
   //   }))
   //   .filter((coord) => coord.latitude && coord.longitude);
+  const [selectedLocation, setSelectedLocation] = useState({});
 
   const center = getCenter(geoCodes);
   console.log(center);
@@ -28,10 +29,17 @@ const Map = ({ width, height, geoCodes }) => {
       {...viewPort}
       onViewportChange={(nextViewPort) => setViewPort(nextViewPort)}
     >
-      {geoCodes.map((geo, idx) => (
+      {geoCodes.map((event, idx) => (
         <div key={idx}>
-          <Marker longitude={geo.longitude} latitude={geo.latitude}>
-            <p className="cursor-pointer animate-bounce">📍</p>
+          <Marker longitude={event.longitude} latitude={event.latitude}>
+            <p
+              className="cursor-pointer animate-bounce"
+              onClick={() => {
+                setSelectedLocation(event);
+              }}
+            >
+              📍
+            </p>
           </Marker>
         </div>
       ))}
