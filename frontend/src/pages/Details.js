@@ -10,7 +10,14 @@ import {
 } from '@heroicons/react/outline';
 import Map from '../components/Map';
 
-const Details = (props) => {
+const Details = ({ location, history, match }) => {
+  const redirect = location.search ? location.search.split('=')[1] : '/';
+  console.log(location.search);
+
+  const saveHandler = () => {
+    history.push('/login?redirect=myEvents');
+  };
+
   const [event, setEvent] = useState({});
   const [coords, setCoords] = useState({
     lat: 34.052235,
@@ -22,7 +29,7 @@ const Details = (props) => {
   };
 
   useEffect(() => {
-    axios.get(`/api/events/${props.match.params.uuid}`).then((resolve) => {
+    axios.get(`/api/events/${match.params.uuid}`).then((resolve) => {
       setEvent(resolve.data);
     });
 
@@ -80,7 +87,7 @@ const Details = (props) => {
               <MapIcon />
               <span>Get direction</span>
             </button> */}
-            <button className="btn btn__link">
+            <button className="btn btn__link" onClick={saveHandler}>
               <BookmarkIcon />
               <span>Save</span>
             </button>

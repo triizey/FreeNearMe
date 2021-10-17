@@ -147,14 +147,18 @@ const App = () => {
             <Route path="/zipcode/:id">
               <Zipcode events={events} />
             </Route>
-            <Route exact path="/myEvents">
+            {/* <Route path="/myEvents">
               <MyEvents events={events} />
-            </Route>
+            </Route> */}
+            <Route
+              path="/myEvents"
+              render={(props) => <MyEvents {...props} events={events} />}
+            />
             <Route exact path="/">
               <Home handleLogout={handleLogout} events={events} />
             </Route>
             <Route
-              path="/eventDetails/:uuid"
+              path="/events/:uuid"
               render={(props) => <Details {...props} />}
             />
           </Switch>

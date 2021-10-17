@@ -55,6 +55,7 @@ export default function Header() {
   const [selecteddate, setDate] = useState('');
   const [errormsg, setError] = useState('');
   let history = useHistory();
+
   return (
     <div className="main_screen">
       <div className=" bg-white flex flex-row items-center justify-around">
@@ -138,6 +139,9 @@ export default function Header() {
           <button
             className="flex-shrink-0 font-black border-transparent border-4 text-teal-500 hover:text-cust-orange text-sm rounded"
             type="button"
+            onClick={() => {
+              history.push('/myEvents');
+            }}
           >
             My Events
           </button>
