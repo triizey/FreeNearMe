@@ -16,26 +16,12 @@ const Details = ({ location, history, match, user }) => {
     axios.get(`/api/events/${match.params.uuid}`).then((resolve) => {
       setEvent(resolve.data);
     });
-
-    // axios('https://maps.googleapis.com/maps/api/geocode/json', {
-    //   params: {
-    //     address: event.location,
-    //     key: 'AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE',
-    //   },
-    // })
-    //   .then((res) => {
-    //     if (res.data.status === 'OK') {
-    //       console.log(res.data.results[0].geometry.location);
-    //     }
-    //   })
-    //   .catch((error) => console.error(error));
   }, []);
 
   const saveHandler = () => {
     if (!user) history.push("/SignIn");
     handleUserFavorites({ userID, event });
-    console.log("attempt");
-    // history.push('/login?redirect=myEvents');
+    history.push("/myEvents");
   };
 
   const [coords, setCoords] = useState({

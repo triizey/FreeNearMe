@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Slider, { SliderTooltip } from "rc-slider";
 // import Slider, { Range } from 'rc-slider';
@@ -11,7 +11,9 @@ import { DateRangePicker } from "react-date-range";
 import { Calendar } from "react-date-range";
 import SignIn from "../pages/SignIn";
 import { firebase } from "../firebase";
-import useGetUserID from "../customHooks/useGetUserID";
+import useFirestore from "../customHooks/useFirestore";
+
+import EventContext from "../utils/EventContext";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -41,9 +43,10 @@ function is_usZipCode(str) {
 //   const wrapperStyle = { width: 200, margin: 50 };
 
 export default function Header({ user }) {
-  // const redirect = location.search ? location.search.split('=')[1] : '/';
+  const userInfo = useContext(EventContext);
   const history = useHistory();
   const [loggedIn, setLoggedIn] = useState(false);
+  const events = useFirestore(`users/${userInfo.userID}/myevents`);
 
   useEffect(() => {
     if (user) {
@@ -55,8 +58,14 @@ export default function Header({ user }) {
   const handleLogout = () => {
     setLoggedIn(false);
     firebase.auth().signOut();
+    history.push("/");
   };
 
+  const handleLogIn = () => {
+    if (!loggedIn) {
+      history.push("/SignIn");
+    }
+  };
   let date = new Date();
 
   const [zipcode, setZip] = useState("");
@@ -116,7 +125,7 @@ export default function Header({ user }) {
               value={date}
               onChange={([date]) => {
                 setDate({ date });
-                console.log(selecteddate);
+                // console.log(selecteddate);
               }}
             />
             {/* <Calendar date={new Date()} /> */}
@@ -142,22 +151,34 @@ export default function Header({ user }) {
         </div>
 
         <div className="flex mr-8">
-          <button
-            className="flex-shrink-0 font-black border-transparent border-4 text-teal-500 hover:text-cust-orange text-sm rounded"
-            type="button"
-            onClick={() => {
-              history.push("/myEvents");
-            }}
-          >
-            My Events
-          </button>
+          {loggedIn && (
+            <>
+              <button
+                className="flex-shrink-0 font-black border-transparent border-4 text-teal-500 hover:text-cust-orange text-sm rounded"
+                type="button"
+                onClick={() => {
+                  history.push("/myEvents");
+                }}
+              >
+                My Events
+              </button>
+              <span
+                className="flex-shrink-0 font-black border-transparent border-4 text-teal-500 hover:text-cust-orange text-sm rounded"
+                type="button"
+                onClick={() => {
+                  history.push("/myEvents");
+                }}
+              >
+                {events.length}
+              </span>
+            </>
+          )}
+
           {!loggedIn ? (
             <button
               className="ml-8 mr-2 bg-cust-orange hover:bg-yellow-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
-              onClick={() => {
-                history.push("/SignIn");
-              }}
+              onClick={handleLogIn}
             >
               Sign In
             </button>

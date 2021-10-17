@@ -16,6 +16,8 @@ import useFirestore from "./customHooks/useFirestore";
 
 const App = () => {
   const [events, setEvents] = useState([]);
+  const [userID, setUserID] = useState();
+  const [eventsCount, setEventsCount] = useState(0);
 
   const geoCodes = useFirestore("eventlocations");
 
@@ -25,8 +27,6 @@ const App = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [hasAccount, setHasAccount] = useState(false);
-
-  console.log(geoCodes);
 
   // useEffect(() => {
   //   const fetchEvents = async () => {
@@ -43,7 +43,7 @@ const App = () => {
       const { data } = await axios.get("/api/events");
       const updatedData = outdatedFilter(data);
       setEvents(updatedData);
-      console.log(updatedData.length);
+      // console.log(updatedData.length);
       // console.log(updatedData);
     };
     fetchEvents();
@@ -61,7 +61,7 @@ const App = () => {
       .auth()
       .signInWithPopup(google_provider)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (!res.additionalUserInfo.profile.email.includes(".edu")) {
           setUser("");
         }
@@ -129,22 +129,21 @@ const App = () => {
     }
   };
 
-  const handleLogout = () => {
-    firebase.auth().signOut();
-  };
-
   const authListener = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
+        // console.log(user);
         if (!user.multiFactor.user.email.includes(".edu")) {
           setUser("");
+          setUserID(null);
           return;
         }
         clearInputs();
         setUser(user);
+        setUserID(user.uid);
       } else {
         setUser("");
+        setUserID(null);
       }
     });
   };
@@ -154,18 +153,20 @@ const App = () => {
   });
 
   return (
-    <EventContext.Provider value={{ events }}>
+    <EventContext.Provider value={{ events, userID }}>
       <Router>
-        <Header user={user} />
+        <Header user={user} userID={userID} />
 
         <div>
           <Switch>
             <Route path="/zipcode/:id">
               <Zipcode events={events} />
             </Route>
-            <Route path="/myEvents">
-              <MyEvents events={events} />
-            </Route>
+            {user && (
+              <Route path="/myEvents">
+                <MyEvents />
+              </Route>
+            )}
             <Route exact path="/SignIn">
               <SignIn
                 user={user}
@@ -174,7 +175,6 @@ const App = () => {
                 password={password}
                 setPassword={setPassword}
                 handleLogin={handleLogin}
-                handleLogout={handleLogout}
                 handleSignup={handleSignup}
                 hasAccount={hasAccount}
                 setHasAccount={setHasAccount}
@@ -184,9 +184,9 @@ const App = () => {
               />
             </Route>
             <Route exact path="/">
-              <Home handleLogout={handleLogout} events={events} />
+              <Home events={events} />
             </Route>
-            <Route path="/events/:uuid" render={(props) => <Details {...props} />} />
+            <Route path="/events/:uuid" render={(props) => <Details {...props} user={user} />} />
           </Switch>
         </div>
         <Footer />

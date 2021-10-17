@@ -54,6 +54,24 @@ export const handleUserFavorites = async ({ userID, event }) => {
   return eventRef;
 };
 
+export const deleteUserFavorite = async ({ userID, event }) => {
+  if (!userID) return;
+  const { uid } = event;
+
+  const eventRef = firestore.collection(`users/${userID}/myevents`);
+  const snapshot = await eventRef.get();
+
+  if (!snapshot.exists) {
+    try {
+      await eventRef.doc(uid).delete();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return eventRef;
+};
+
 export const handleGeoCodes = async (event) => {
   if (!event) return;
   const { uid, location } = event;
