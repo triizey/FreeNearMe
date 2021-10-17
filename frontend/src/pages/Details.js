@@ -9,16 +9,39 @@ import {
   LinkIcon,
 } from '@heroicons/react/outline';
 import Map from '../components/Map';
+import useGetUserID from '../customHooks/useGetUserID';
+import { handleUserFavorites } from '../utils/firebaseUtils';
 
 const Details = ({ location, history, match }) => {
-  const redirect = location.search ? location.search.split('=')[1] : '/';
-  console.log(location.search);
+  const [event, setEvent] = useState({});
+  // const redirect = location.search ? location.search.split('=')[1] : '/';
+  // console.log(location.search);
+  const [userId] = useGetUserID();
 
-  const saveHandler = () => {
-    history.push('/login?redirect=myEvents');
+  useEffect(() => {
+    axios.get(`/api/events/${match.params.uuid}`).then((resolve) => {
+      setEvent(resolve.data);
+    });
+
+    // axios('https://maps.googleapis.com/maps/api/geocode/json', {
+    //   params: {
+    //     address: event.location,
+    //     key: 'AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE',
+    //   },
+    // })
+    //   .then((res) => {
+    //     if (res.data.status === 'OK') {
+    //       console.log(res.data.results[0].geometry.location);
+    //     }
+    //   })
+    //   .catch((error) => console.error(error));
+  }, []);
+
+  const saveHandler = (event) => {
+    handleUserFavorites({ userId, event });
+    // history.push('/login?redirect=myEvents');
   };
 
-  const [event, setEvent] = useState({});
   const [coords, setCoords] = useState({
     lat: 34.052235,
     lng: -118.243683,
@@ -27,25 +50,6 @@ const Details = ({ location, history, match }) => {
   const getImgRandomNo = () => {
     return Math.floor(Math.random() * 9);
   };
-
-  useEffect(() => {
-    axios.get(`/api/events/${match.params.uuid}`).then((resolve) => {
-      setEvent(resolve.data);
-    });
-
-    axios('https://maps.googleapis.com/maps/api/geocode/json', {
-      params: {
-        address: event.location,
-        key: 'AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE',
-      },
-    })
-      .then((res) => {
-        if (res.data.status === 'OK') {
-          console.log(res.data.results[0].geometry.location);
-        }
-      })
-      .catch((error) => console.error(error));
-  }, []);
 
   return (
     <>
@@ -87,7 +91,7 @@ const Details = ({ location, history, match }) => {
               <MapIcon />
               <span>Get direction</span>
             </button> */}
-            <button className="btn btn__link" onClick={saveHandler}>
+            <button className="btn btn__link" onClick={saveHandler(event)}>
               <BookmarkIcon />
               <span>Save</span>
             </button>
