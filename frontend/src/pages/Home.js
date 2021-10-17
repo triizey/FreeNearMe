@@ -6,9 +6,9 @@ import EventsCarousel from '../components/EventsCarousel';
 
 
 const Home = ({ events }) => {
-  const [filteredEvents, setFilteredEvents] = useState([events]);
+  const [filteredEvent, setFilteredEvent] = useState([events]);
 
-  useEffect(() => {}, [filteredEvents]);
+  useEffect(() => {}, [filteredEvent]);
 
   const getImgRandomNo = () => {
     return Math.floor(Math.random() * 9);
@@ -22,7 +22,7 @@ const Home = ({ events }) => {
           <h1 className="h1 text-cust-black font-header">Current Events</h1>
           <div className="md:relative h-full">
             <section className="scrollbar-thin mb-8 h-5/6 top-24 left-5 md:absolute md:z-10 overflow-y-scroll scrollbar-thumb-cust-black scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
-              {filteredEvents.map((event) => (
+              {events.map((event) => (
                 <SmallCard
                   key={event.uid}
                   event={event}

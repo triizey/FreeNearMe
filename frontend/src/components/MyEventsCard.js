@@ -2,9 +2,10 @@ import React from 'react';
 import { CalendarIcon } from '@heroicons/react/outline';
 import { PaperAirplaneIcon } from '@heroicons/react/outline';
 import { ArrowNarrowRightIcon } from '@heroicons/react/solid';
+import { XIcon } from '@heroicons/react/outline';
 import { useHistory } from 'react-router-dom';
 
-const EventCard = ({ event, location }) => {
+const MyEventCard = ({ event, location }) => {
   const history = useHistory();
 
   const getImgRandomNo = () => {
@@ -39,7 +40,7 @@ const EventCard = ({ event, location }) => {
           <h4>{event.zipcode}</h4>
         </div>
       </div>
-      <div className="p-2">
+      <div className="p-2 flex items-center">
         <button
           className="relative flex items-center cursor-pointer py-2 px-6 rounded-full border border-gray-500 w-32 mb-3 hover:text-white hover:bg-black transition-all ease-out"
           onClick={() => {
@@ -49,9 +50,12 @@ const EventCard = ({ event, location }) => {
           <h4 className="relative text-md mr-5">Details</h4>
           <ArrowNarrowRightIcon className="h-4 flex-shrink-0" />
         </button>
+        <button>
+          <XIcon className="h-6 ml-5 hover:text-cust-red transition-colors ease-in-out" />
+        </button>
       </div>
     </div>
   );
 };
 
-export default EventCard;
+export default MyEventCard;
