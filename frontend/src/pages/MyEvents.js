@@ -1,5 +1,5 @@
 import React from 'react';
-import EventCard from '../components/EventCard';
+import MyEventsCard from '../components/MyEventsCard';
 
 const MyEvents = ({ events }) => {
   return (
@@ -12,7 +12,9 @@ const MyEvents = ({ events }) => {
 
       <div className="max-w-screen-2xl m-auto grid grid-flow-row-dense sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {events.map((event) => (
-          <EventCard event={event} key={event.uid} />
+          <>
+            <MyEventsCard event={event} key={event.uid} />
+          </>
         ))}
       </div>
     </div>

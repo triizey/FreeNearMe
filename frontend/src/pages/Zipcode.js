@@ -22,10 +22,10 @@ const Zipcode = ({ events }) => {
   //   fetchEvents();
   // }, []);
 
-  useEffect(() => {
-    console.log(events[0]);
-    console.log(events.length);
-  }, []);
+  // useEffect(() => {
+  //   console.log(events[0]);
+  //   console.log(events.length);
+  // }, []);
 
   return (
     <div>

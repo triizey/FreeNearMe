@@ -9,9 +9,39 @@ import {
   LinkIcon,
 } from '@heroicons/react/outline';
 import Map from '../components/Map';
+import useGetUserID from '../customHooks/useGetUserID';
+import { handleUserFavorites } from '../utils/firebaseUtils';
 
-const Details = (props) => {
+const Details = ({ location, history, match }) => {
   const [event, setEvent] = useState({});
+  // const redirect = location.search ? location.search.split('=')[1] : '/';
+  // console.log(location.search);
+  const [userId] = useGetUserID();
+
+  useEffect(() => {
+    axios.get(`/api/events/${match.params.uuid}`).then((resolve) => {
+      setEvent(resolve.data);
+    });
+
+    // axios('https://maps.googleapis.com/maps/api/geocode/json', {
+    //   params: {
+    //     address: event.location,
+    //     key: 'AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE',
+    //   },
+    // })
+    //   .then((res) => {
+    //     if (res.data.status === 'OK') {
+    //       console.log(res.data.results[0].geometry.location);
+    //     }
+    //   })
+    //   .catch((error) => console.error(error));
+  }, []);
+
+  const saveHandler = (event) => {
+    handleUserFavorites({ userId, event });
+    // history.push('/login?redirect=myEvents');
+  };
+
   const [coords, setCoords] = useState({
     lat: 34.052235,
     lng: -118.243683,
@@ -20,25 +50,6 @@ const Details = (props) => {
   const getImgRandomNo = () => {
     return Math.floor(Math.random() * 9);
   };
-
-  useEffect(() => {
-    axios.get(`/api/events/${props.match.params.uuid}`).then((resolve) => {
-      setEvent(resolve.data);
-    });
-
-    axios('https://maps.googleapis.com/maps/api/geocode/json', {
-      params: {
-        address: event.location,
-        key: 'AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE',
-      },
-    })
-      .then((res) => {
-        if (res.data.status === 'OK') {
-          console.log(res.data.results[0].geometry.location);
-        }
-      })
-      .catch((error) => console.error(error));
-  }, []);
 
   return (
     <>
@@ -80,7 +91,7 @@ const Details = (props) => {
               <MapIcon />
               <span>Get direction</span>
             </button> */}
-            <button className="btn btn__link">
+            <button className="btn btn__link" onClick={saveHandler(event)}>
               <BookmarkIcon />
               <span>Save</span>
             </button>
