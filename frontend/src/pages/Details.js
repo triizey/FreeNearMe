@@ -12,11 +12,11 @@ import Map from '../components/Map';
 import useGetUserID from '../customHooks/useGetUserID';
 import { handleUserFavorites } from '../utils/firebaseUtils';
 
-const Details = ({ location, history, match }) => {
+const Details = ({ location, history, match, user }) => {
   const [event, setEvent] = useState({});
   // const redirect = location.search ? location.search.split('=')[1] : '/';
   // console.log(location.search);
-  const [userId] = useGetUserID();
+  const [userID] = useGetUserID();
 
   useEffect(() => {
     axios.get(`/api/events/${match.params.uuid}`).then((resolve) => {
@@ -37,8 +37,11 @@ const Details = ({ location, history, match }) => {
     //   .catch((error) => console.error(error));
   }, []);
 
-  const saveHandler = (event) => {
-    handleUserFavorites({ userId, event });
+  const saveHandler = () => {
+    if (!user) {
+      history.push('/SignIn');
+    }
+    handleUserFavorites({ userID, event });
     // history.push('/login?redirect=myEvents');
   };
 
@@ -91,7 +94,7 @@ const Details = ({ location, history, match }) => {
               <MapIcon />
               <span>Get direction</span>
             </button> */}
-            <button className="btn btn__link" onClick={saveHandler(event)}>
+            <button className="btn btn__link" onClick={saveHandler}>
               <BookmarkIcon />
               <span>Save</span>
             </button>

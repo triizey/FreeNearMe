@@ -174,7 +174,7 @@ const App = () => {
             </Route>
             <Route
               path="/events/:uuid"
-              render={(props) => <Details {...props} />}
+              render={(props) => <Details {...props} user={user} />}
             />
           </Switch>
         </div>
