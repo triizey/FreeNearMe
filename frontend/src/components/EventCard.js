@@ -2,8 +2,11 @@ import React from 'react';
 import { CalendarIcon } from '@heroicons/react/outline';
 import { PaperAirplaneIcon } from '@heroicons/react/outline';
 import { ArrowNarrowRightIcon } from '@heroicons/react/solid';
+import { useHistory } from 'react-router-dom';
 
 const EventCard = ({ event }) => {
+  const history = useHistory();
+
   const getImgRandomNo = () => {
     return Math.floor(Math.random() * 9);
   };
@@ -37,7 +40,12 @@ const EventCard = ({ event }) => {
         </div>
       </div>
       <div className="p-2">
-        <button className="relative flex items-center cursor-pointer py-2 px-6 rounded-full border border-gray-500 w-32 mb-3 hover:text-white hover:bg-black transition-all ease-out">
+        <button
+          className="relative flex items-center cursor-pointer py-2 px-6 rounded-full border border-gray-500 w-32 mb-3 hover:text-white hover:bg-black transition-all ease-out"
+          onClick={() => {
+            history.push(`/eventDetails/${event.uid}`);
+          }}
+        >
           <h4 className="relative text-md mr-5">Details</h4>
           <ArrowNarrowRightIcon className="h-4 flex-shrink-0" />
         </button>

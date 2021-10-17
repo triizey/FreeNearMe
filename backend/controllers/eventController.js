@@ -6,11 +6,7 @@ const asyncHandler = require('express-async-handler');
 // @access Public
 const getEvents = asyncHandler(async (req, res) => {
   Event.find({
-    $and: [
-      { name: { $ne: null } },
-      { location: { $ne: null } },
-      // { date: { $gte: new Date('Sun, October 10, 2021') } },
-    ],
+    $and: [{ name: { $ne: null } }, { location: { $ne: null } }],
   }).then((data) => res.send(data));
 });
 
@@ -18,19 +14,6 @@ const getEvents = asyncHandler(async (req, res) => {
 // @route GET /api/events/defaultEvents
 // @access Public
 const getDefaultEvents = asyncHandler(async (req, res) => {
-  //  let x= ["2020-10-21,"29-05-2021"]
-  // x.forEach((d)=>{
-  // console.log(new Date(d))
-  // let x= ["2020-10-21,"29-05-2021"]
-  // x.forEach((d)=>{
-  // console.log(new Date(d))
-  //   let x= ["2020-10-21,"29-05-2021"]
-  // x.forEach((d)=>{
-  // if(!isNaN(Date.parse(d))){
-  // console.log(new Date(d))
-  // }
-  // })
-
   Event.find({
     $and: [
       { name: { $ne: null } },
@@ -55,4 +38,21 @@ const getSingleEvent = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getEvents, getSingleEvent, getDefaultEvents };
+const getEventsByZip = asyncHandler(async (req, res) => {
+  const zipcode = req.params.id;
+  var substring = zipcode.slice(0, -2);
+
+  Event.find({
+    zipcode: { $regex: substring },
+    $options: 'i',
+
+    // { date: { $gte: new Date('Sun, October 10, 2021') } },
+  }).then((data) => res.send(data));
+});
+
+module.exports = {
+  getEvents,
+  getSingleEvent,
+  getDefaultEvents,
+  getEventsByZip,
+};

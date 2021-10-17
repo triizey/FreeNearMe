@@ -9,13 +9,16 @@ import EventContext from './utils/EventContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { outdatedFilter } from './components/dataFilter';
+<<<<<<< HEAD
 import SignIn from './pages/SignIn';
 import {firebase} from './firebase'
+=======
+import Details from './pages/Details';
+import Zipcode from './pages/Zipcode';
+>>>>>>> c2c9fe4ac0b08f53fabb9e7a06645ad1ca0dd227
 
 const App = () => {
-  const [defaultEvents, setDefaultEvents] = useState([]);
-
-  const [zipcode, setZipcode] = useState('94203');
+  const [events, setEvents] = useState([]);
 
   const [user, setUser] = useState('');
   const [email, setEmail] = useState('');
@@ -24,13 +27,23 @@ const App = () => {
   const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(false);
 
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     const { data } = await axios.get('/api/events');
+  //     setEvents(data);
+
+  //     console.log(data.length);
+  //   };
+  //   fetchEvents();
+  // }, []);
+
   useEffect(() => {
     const fetchEvents = async () => {
-      const { data } = await axios.get('/api/events/defaultEvents');
+      const { data } = await axios.get('/api/events');
       const updatedData = outdatedFilter(data);
-      setDefaultEvents(updatedData);
+      setEvents(updatedData);
       console.log(updatedData.length);
-      console.log(updatedData);
+      // console.log(updatedData);
     };
     fetchEvents();
   }, []);
@@ -134,14 +147,17 @@ const App = () => {
   })
 
   return (
-    <EventContext.Provider value={{ defaultEvents }}>
+    <EventContext.Provider value={{ events }}>
       <Router>
         <Header />
         
         <div>
           <Switch>
+            <Route path="/zipcode/:id">
+              <Zipcode events={events} />
+            </Route>
             <Route exact path="/myEvents">
-              <MyEvents events={defaultEvents} />
+              <MyEvents events={events} />
             </Route>
             <Route exact path="/SignIn">
               <SignIn 
@@ -162,10 +178,18 @@ const App = () => {
                />
             </Route>
             <Route exact path="/">
+<<<<<<< HEAD
               <Home 
               // handleLogout={handleLogout}
                events={defaultEvents} />
+=======
+              <Home handleLogout={handleLogout} events={events} />
+>>>>>>> c2c9fe4ac0b08f53fabb9e7a06645ad1ca0dd227
             </Route>
+            <Route
+              path="/eventDetails/:uuid"
+              render={(props) => <Details {...props} />}
+            />
           </Switch>
         </div>
         <Footer />
