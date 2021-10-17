@@ -3,6 +3,7 @@ const {
   getEvents,
   getSingleEvent,
   getDefaultEvents,
+  getEventsByZip,
 } = require('../controllers/eventController');
 
 // @desc Fetch all events
@@ -19,5 +20,5 @@ router.route('/defaultEvents').get(getDefaultEvents);
 // @route GET /api/events/:id
 // @access Public
 router.route('/:id').get(getSingleEvent);
-
+router.route('/byzipcode/:id').get(getEventsByZip);
 module.exports = router;
