@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Slider, { SliderTooltip } from 'rc-slider';
+import { useLocation } from 'react-router-dom';
 // import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import 'flatpickr/dist/themes/airbnb.css';
@@ -46,24 +47,33 @@ function is_usZipCode(str) {
 
 //   const wrapperStyle = { width: 200, margin: 50 };
 
-export default function Header({ location }) {
-  // const redirect = location.search ? location.search.split('=')[1] : '/';
+export default function Header({ user }) {
   const history = useHistory();
-  const [userId] = useGetUserID();
+
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (userId != '') {
+    if (user) {
       setLoggedIn(true);
       history.goBack();
     }
-  }, [userId]);
+  }, [user]);
 
   useEffect(() => {
     if (loggedIn) {
-      history.push('/');
+      history.push('redirect');
     }
   }, [history, loggedIn]);
+
+  const handleLogIn = () => {
+    if (!loggedIn) {
+      history.push('/SignIn');
+    }
+  };
+  const logOut = () => {
+    setLoggedIn(false);
+    firebase.auth().signOut();
+  };
 
   let date = new Date();
 
@@ -159,10 +169,11 @@ export default function Header({ location }) {
           >
             My Events
           </button>
-          {loggedIn ? (
+          {!loggedIn ? (
             <button
               className="ml-8 mr-2 bg-cust-orange hover:bg-yellow-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
+              onClick={handleLogIn}
             >
               Sign In
             </button>
@@ -170,6 +181,7 @@ export default function Header({ location }) {
             <button
               className="ml-8 mr-2 bg-cust-red hover:bg-red-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
+              onClick={logOut}
             >
               Sign Out
             </button>

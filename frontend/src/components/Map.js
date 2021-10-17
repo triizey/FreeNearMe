@@ -4,58 +4,10 @@ import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { getCenter } from 'geolib';
 
 const Map = ({ events, width, height, center }) => {
-  const [coordsArray, setCoordsArray] = useState([]);
   // const [centerCalced, setCenterCalced] = useState({
   //   latitude: 34.052235,
   //   longitude: -118.243683,
   // });
-
-  // useEffect(() => {
-  //   handleGeoCodes();
-  // }, []);
-
-  // useEffect(() => {
-  //   const formattedCoords = coordsArray.map((coord) => ({
-  //     latitude: coord.lat,
-  //     longitude: coord.lng,
-  //   }));
-  //   setCenterCalced(getCenter(formattedCoords));
-  //   console.log(center);
-  // }, [coordsArray]);
-
-  /* Get coordinates */
-  // const getGeocodes = () => {
-  //   let coordsPromises = [];
-  //   for (let i = 0; i < events.length; i++) {
-  //     coordsPromises.push(
-  //       axios('https://maps.googleapis.com/maps/api/geocode/json', {
-  //         params: {
-  //           address: events[i].location,
-  //           key: 'AIzaSyAtVNovmGA72KXikxRSNX_h_MHUAbtqlgE',
-  //         },
-  //       })
-  //         .then((res) => {
-  //           if (res.data.status === 'OK') {
-  //             return res.data.results[0].geometry.location;
-  //           }
-  //         })
-  //         .catch((error) => console.error(error)),
-  //     );
-  //   }
-  //   return coordsPromises;
-  // };
-
-  // const handleGeoCodes = async () => {
-  //   try {
-  //     var allCoords = await Promise.all(getGeocodes()).then((res) => {
-  //       return res;
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setCoordsArray(allCoords);
-  //   }
-  // };
 
   /* Calculate center of all the events to locate the map */
 
