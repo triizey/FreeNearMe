@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .main_screen {
+    @apply max-w-7xl m-auto p-5;
+  }
+  .h1 {
+    @apply m-5 text-2xl font-semibold font-header tracking-widest uppercase;
+  }
+}
+body {
+  @apply font-main-text text-cust-black;
+}
+
+p {
+  @apply leading-7 text-base mb-3;
+}
+
+svg {
+  width: 22px;
+  height: 22px;
+}
+
+.btn {
+  @apply flex items-center mr-9 transition-colors duration-300 ease-in-out;
+}
+
+.btn span {
+  @apply ml-1 font-medium;
+}
+
+.btn__red {
+  @apply rounded-xl py-3 px-6 border-none bg-cust-red text-white;
+}
+
+.btn__orange {
+  @apply rounded-xl py-3 px-6 border-none bg-cust-orange text-white;
+}
+
+.btn__red:hover,
+.btn__yellow:hover {
+  @apply bg-opacity-90 text-cust-gray-lighter;
+}
+
+.btn__link {
+  @apply p-0 mr-3 text-cust-black;
+}
+
+.btn__link:hover {
+  @apply text-cust-red;
+}
