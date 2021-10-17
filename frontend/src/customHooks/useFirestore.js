@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { firestore } from "../firebase";
+import { useState, useEffect } from 'react';
+import { firestore } from '../firebase';
 
 const useFirestore = (collection) => {
   const [docs, setDocs] = useState([]);

@@ -18,7 +18,7 @@ const getDefaultEvents = asyncHandler(async (req, res) => {
     $and: [
       { name: { $ne: null } },
       { location: { $ne: null } },
-      { zipcode: { $regex: 'CA' } },
+      { zipcode: { $regex: 'NY' } },
     ],
   }).then((data) => res.send(data));
 });
@@ -45,8 +45,6 @@ const getEventsByZip = asyncHandler(async (req, res) => {
   Event.find({
     zipcode: { $regex: substring },
     $options: 'i',
-
-    // { date: { $gte: new Date('Sun, October 10, 2021') } },
   }).then((data) => res.send(data));
 });
 
