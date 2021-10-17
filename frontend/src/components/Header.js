@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import Slider, { SliderTooltip } from 'rc-slider';
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import Slider, { SliderTooltip } from "rc-slider";
 // import Slider, { Range } from 'rc-slider';
-import 'rc-slider/assets/index.css';
-import 'flatpickr/dist/themes/airbnb.css';
-import Flatpickr from 'react-flatpickr';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
-import { DateRangePicker } from 'react-date-range';
-import { Calendar } from 'react-date-range';
-import SignIn from '../pages/SignIn';
-import { firebase } from '../firebase';
-import useGetUserID from '../customHooks/useGetUserID';
+import "rc-slider/assets/index.css";
+import "flatpickr/dist/themes/airbnb.css";
+import Flatpickr from "react-flatpickr";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { DateRangePicker } from "react-date-range";
+import { Calendar } from "react-date-range";
+import SignIn from "../pages/SignIn";
+import { firebase } from "../firebase";
+import useGetUserID from "../customHooks/useGetUserID";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -20,13 +20,7 @@ const { Handle } = Slider;
 const handle = (props) => {
   const { value, dragging, index, ...restProps } = props;
   return (
-    <SliderTooltip
-      prefixCls="rc-slider-tooltip"
-      overlay={`${value} miles`}
-      visible={dragging}
-      placement="top"
-      key={index}
-    >
+    <SliderTooltip prefixCls="rc-slider-tooltip" overlay={`${value} miles`} visible={dragging} placement="top" key={index}>
       <Handle value={value} {...restProps} />
     </SliderTooltip>
   );
@@ -46,30 +40,28 @@ function is_usZipCode(str) {
 
 //   const wrapperStyle = { width: 200, margin: 50 };
 
-export default function Header({ location }) {
+export default function Header({ user }) {
   // const redirect = location.search ? location.search.split('=')[1] : '/';
   const history = useHistory();
-  const [userId] = useGetUserID();
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (userId != '') {
+    if (user) {
       setLoggedIn(true);
       history.goBack();
     }
-  }, [userId]);
+  }, [user]);
 
-  useEffect(() => {
-    if (loggedIn) {
-      history.push('/');
-    }
-  }, [history, loggedIn]);
+  const handleLogout = () => {
+    setLoggedIn(false);
+    firebase.auth().signOut();
+  };
 
   let date = new Date();
 
-  const [zipcode, setZip] = useState('');
-  const [selecteddate, setDate] = useState('');
-  const [errormsg, setError] = useState('');
+  const [zipcode, setZip] = useState("");
+  const [selecteddate, setDate] = useState("");
+  const [errormsg, setError] = useState("");
   return (
     <div className="main_screen">
       <div className=" bg-white flex flex-row items-center justify-around">
@@ -78,8 +70,8 @@ export default function Header({ location }) {
             src="./images/logo.png"
             className="h-full ml-2 py-4 object-contain"
             onClick={() => {
-              history.push('/');
-              setZip('');
+              history.push("/");
+              setZip("");
             }}
           />
         </div>
@@ -115,11 +107,11 @@ export default function Header({ location }) {
             <Flatpickr
               className="m-2 h-10 px-3 placeholder-cust-orange border border-cust-orange rounded text-yellow-500"
               options={{
-                minDate: 'today',
+                minDate: "today",
                 altInput: true,
                 enableTime: false,
-                altFormat: 'F j, Y',
-                dateFormat: 'Y-m-d',
+                altFormat: "F j, Y",
+                dateFormat: "Y-m-d",
               }}
               value={date}
               onChange={([date]) => {
@@ -136,13 +128,13 @@ export default function Header({ location }) {
               src="./images/search.png"
               onClick={() => {
                 console.log(zipcode);
-                let addressnav = '/zipcode/' + zipcode;
+                let addressnav = "/zipcode/" + zipcode;
                 if (is_usZipCode(zipcode)) {
                   history.push(addressnav);
-                  setError('');
+                  setError("");
                 } else {
-                  console.log('invalid zipcode format ');
-                  setError('Invalid Zipcode Format.');
+                  console.log("invalid zipcode format ");
+                  setError("Invalid Zipcode Format.");
                 }
               }}
             />
@@ -154,15 +146,18 @@ export default function Header({ location }) {
             className="flex-shrink-0 font-black border-transparent border-4 text-teal-500 hover:text-cust-orange text-sm rounded"
             type="button"
             onClick={() => {
-              history.push('/myEvents');
+              history.push("/myEvents");
             }}
           >
             My Events
           </button>
-          {loggedIn ? (
+          {!loggedIn ? (
             <button
               className="ml-8 mr-2 bg-cust-orange hover:bg-yellow-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
+              onClick={() => {
+                history.push("/SignIn");
+              }}
             >
               Sign In
             </button>
@@ -170,6 +165,7 @@ export default function Header({ location }) {
             <button
               className="ml-8 mr-2 bg-cust-red hover:bg-red-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
+              onClick={handleLogout}
             >
               Sign Out
             </button>

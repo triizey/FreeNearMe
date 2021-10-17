@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -12,26 +11,13 @@ import Footer from "./components/Footer";
 import { outdatedFilter } from "./components/dataFilter";
 import Details from "./pages/Details";
 import Zipcode from "./pages/Zipcode";
-=======
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from './pages/Home';
-// import SignIn from './pages/SignIn';
-import MyEvents from './pages/MyEvents';
-// import { firebase } from './firebase';
-import EventContext from './utils/EventContext';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import { outdatedFilter } from './components/dataFilter';
-import SignIn from './pages/SignIn';
-import { firebase } from './firebase';
-import Details from './pages/Details';
-import Zipcode from './pages/Zipcode';
->>>>>>> b1310872512b8cde9f105ced7e9a9650899342c9
+import { handleGeoCodes } from "./utils/firebaseUtils";
+import useFirestore from "./customHooks/useFirestore";
 
 const App = () => {
   const [events, setEvents] = useState([]);
+
+  const geoCodes = useFirestore("eventlocations");
 
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
@@ -39,6 +25,8 @@ const App = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [hasAccount, setHasAccount] = useState(false);
+
+  console.log(geoCodes);
 
   // useEffect(() => {
   //   const fetchEvents = async () => {
@@ -60,6 +48,12 @@ const App = () => {
     };
     fetchEvents();
   }, []);
+
+  useEffect(() => {
+    events.forEach((event) => {
+      handleGeoCodes(event);
+    });
+  }, [events]);
 
   const SignInWithGoogle = () => {
     const google_provider = new firebase.auth.GoogleAuthProvider(); // creates a provider
@@ -162,7 +156,7 @@ const App = () => {
   return (
     <EventContext.Provider value={{ events }}>
       <Router>
-        <Header />
+        <Header user={user} />
 
         <div>
           <Switch>
@@ -192,14 +186,7 @@ const App = () => {
             <Route exact path="/">
               <Home handleLogout={handleLogout} events={events} />
             </Route>
-<<<<<<< HEAD
-            <Route path="/eventDetails/:uuid" render={(props) => <Details {...props} />} />
-=======
-            <Route
-              path="/events/:uuid"
-              render={(props) => <Details {...props} />}
-            />
->>>>>>> b1310872512b8cde9f105ced7e9a9650899342c9
+            <Route path="/events/:uuid" render={(props) => <Details {...props} />} />
           </Switch>
         </div>
         <Footer />
