@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
@@ -119,14 +120,10 @@ const App = () => {
     }
   };
 
-  const handleLogout = () => {
-    firebase.auth().signOut();
-  };
-
   const authListener = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
+        // console.log(user);
         if (!user.multiFactor.user.email.includes('.edu')) {
           setUser('');
           return;
@@ -146,7 +143,7 @@ const App = () => {
   return (
     <EventContext.Provider value={{ events }}>
       <Router>
-        <Header />
+        <Header user={user} />
 
         <div>
           <Switch>
@@ -164,7 +161,6 @@ const App = () => {
                 password={password}
                 setPassword={setPassword}
                 handleLogin={handleLogin}
-                handleLogout={handleLogout}
                 handleSignup={handleSignup}
                 hasAccount={hasAccount}
                 setHasAccount={setHasAccount}
@@ -174,7 +170,7 @@ const App = () => {
               />
             </Route>
             <Route exact path="/">
-              <Home handleLogout={handleLogout} events={events} />
+              <Home events={events} />
             </Route>
             <Route
               path="/events/:uuid"
